@@ -61,6 +61,12 @@ input,button,select,textarea{font-family:inherit;transition:all .2s ease-in-out}
 .sc{padding:16px;border-radius:16px;background:#fff;border:1px solid rgba(234,229,222,.6);box-shadow:0 2px 12px rgba(0,0,0,.02)}
 .tg{padding:6px 12px;border-radius:10px;border:none;font-size:11px;font-weight:600;cursor:pointer;transition:all .2s}
 .tg:active{transform:scale(0.95)}
+.slider{position:relative;margin:0 12px 12px;border-radius:18px;overflow:hidden;height:150px}
+.slider-track{display:flex;transition:transform .45s cubic-bezier(0.16,1,0.3,1);height:100%;touch-action:pan-y}
+.slide{min-width:100%;height:100%;padding:22px 18px;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:center}
+.slider-dots{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:5px;z-index:2}
+.sdot{width:6px;height:6px;border-radius:3px;background:rgba(255,255,255,.35);transition:all .3s;cursor:pointer}
+.sdot.on{width:18px;background:rgba(255,255,255,.9)}
 /* Financial report styles */
 .fr-bar{height:8px;border-radius:4px;transition:width .6s cubic-bezier(0.16,1,0.3,1)}
 .fr-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #F5F0EA}
@@ -126,6 +132,8 @@ let custBlocks=LS('custBlocks')||[];
 let viewCust=null,custFilter='all',custQ='';
 // Financial report state
 let frPeriod='daily';
+let banners=LS('banners')||[];
+let slideIdx=0,slideTimer=null;
 
 const sv=k=>SS(k,({prods,cats,pays,zones,dlvr,cart,users,orders,stg})[k]);
 
@@ -172,6 +180,7 @@ frTopProducts:'الأكثر مبيعاً',frTopZones:'المناطق الأكث�
 frSold:'مبيع',frGrowth:'النمو',frCompare:'مقارنة بالفترة السابقة',frPeriodLabel:'الفترة',
 admOrds:'إدارة الطلبات',delOrd:'حذف',delAllOrd:'حذف جميع الطلبات',delAllConfirm:'هل تريد حذف جميع الطلبات؟ لا يمكن التراجع!',resetAll:'استعادة الافتراضي',resetConfirm:'هل تريد استعادة جميع البيانات للوضع الافتراضي؟ سيتم حذف كل شيء!',resetDone:'تم استعادة الافتراضي!',noOrders:'لا توجد طلبات',ordDeleted:'تم حذف الطلب',allDeleted:'تم حذف جميع الطلبات',changeStatus:'تغيير الحالة',
 pCost:'سعر التكلفة',pSell:'سعر البيع',pProfit:'الربح',pMargin:'هامش الربح',profitPerItem:'ربح القطعة',totalCost:'إجمالي التكلفة',totalProfit:'إجمالي الربح',grossProfit:'الربح الإجمالي',netProfit:'صافي الربح',profitMargin:'نسبة الربح',investValue:'قيمة المخزون (تكلفة)',expectedRev:'الإيرادات المتوقعة',expectedProfit:'الربح المتوقع',costAnalysis:'تحليل التكاليف',profitByProduct:'الربح حسب المنتج',noCost:'لم تُحدد التكلفة',
+bnrT:'البنرات',bnrAdd:'إضافة بنر',bnrPromo:'بنر إعلاني',bnrTitleAr:'العنوان بالعربي',bnrTitleEn:'العنوان بالانجليزي',bnrDescAr:'الوصف بالعربي',bnrDescEn:'الوصف بالانجليزي',bnrBg1:'اللون 1',bnrBg2:'اللون 2',bnrBtn:'نص الزر',bnrLink:'الرابط (اختياري)',bnrNoBnr:'لا توجد بنرات',bnrAutoNew:'منتجات جديدة (تلقائي)',bnrAutoOffer:'عروض الخصم (تلقائي)',bnrCustom:'مخصص',bnrEmoji:'الأيقونة',
 },en:{
 shop:'Shop',cartT:'Cart',ordersT:'Orders',acc:'Account',
 na:'New Arrivals',cur:'Curated for you',sn:'Shop Now',fig:'Follow on Instagram',
@@ -214,6 +223,7 @@ frTopProducts:'Top Products',frTopZones:'Top Zones',frNoData:'No data for this p
 frSold:'sold',frGrowth:'Growth',frCompare:'vs previous period',frPeriodLabel:'Period',
 admOrds:'Manage Orders',delOrd:'Delete',delAllOrd:'Delete All Orders',delAllConfirm:'Delete all orders? This cannot be undone!',resetAll:'Reset to Default',resetConfirm:'Reset all data to default? Everything will be deleted!',resetDone:'Reset complete!',noOrders:'No orders',ordDeleted:'Order deleted',allDeleted:'All orders deleted',changeStatus:'Change Status',
 pCost:'Cost Price',pSell:'Sell Price',pProfit:'Profit',pMargin:'Margin',profitPerItem:'Profit/Item',totalCost:'Total Cost',totalProfit:'Total Profit',grossProfit:'Gross Profit',netProfit:'Net Profit',profitMargin:'Profit %',investValue:'Inventory Value (Cost)',expectedRev:'Expected Revenue',expectedProfit:'Expected Profit',costAnalysis:'Cost Analysis',profitByProduct:'Profit by Product',noCost:'No cost set',
+bnrT:'Banners',bnrAdd:'Add Banner',bnrPromo:'Promo Banner',bnrTitleAr:'Title (Arabic)',bnrTitleEn:'Title (English)',bnrDescAr:'Desc (Arabic)',bnrDescEn:'Desc (English)',bnrBg1:'Color 1',bnrBg2:'Color 2',bnrBtn:'Button Text',bnrLink:'Link (optional)',bnrNoBnr:'No banners',bnrAutoNew:'New Products (Auto)',bnrAutoOffer:'Discount Offers (Auto)',bnrCustom:'Custom',bnrEmoji:'Icon',
 }};
 const t=k=>(T[L]||T.ar)[k]||k;
 const pn=p=>L==='ar'?p.ar:p.en;
@@ -307,7 +317,7 @@ function admOut(){isAdm=false;pg='acc';R()}
 function delOrder(i){if(!confirm(L==='ar'?'حذف هذا الطلب؟':'Delete this order?'))return;orders.splice(i,1);SS('orders',orders);R()}
 function delAllOrders(){if(!confirm(t('delAllConfirm')))return;orders=[];SS('orders',orders);alert(t('allDeleted'));R()}
 function setOrdStatus(i,s){orders[i].status=s;SS('orders',orders);R()}
-function resetDefaults(){if(!confirm(t('resetConfirm')))return;if(!confirm(L==='ar'?'تأكيد نهائي — حذف كل شيء؟':'Final confirm — delete everything?'))return;prods=JSON.parse(JSON.stringify(DF_PRODS));cats=JSON.parse(JSON.stringify(DF_CATS));pays=JSON.parse(JSON.stringify(DF_PAYS));zones=JSON.parse(JSON.stringify(DF_ZONES));dlvr={...DF_DLVR};cart=[];orders=[];users=[];coupons=[];custNotes={};custBlocks=[];stg={};cu=null;appliedCoupon=null;['prods','cats','pays','zones','dlvr','cart','orders','users','coupons','custNotes','custBlocks','stg','user'].forEach(k=>localStorage.removeItem(k));SS('prods',prods);SS('cats',cats);SS('pays',pays);SS('zones',zones);SS('dlvr',dlvr);SS('cart',cart);SS('orders',orders);SS('users',users);SS('coupons',coupons);SS('custNotes',custNotes);SS('custBlocks',custBlocks);SS('stg',stg);alert(t('resetDone'));R()}
+function resetDefaults(){if(!confirm(t('resetConfirm')))return;if(!confirm(L==='ar'?'تأكيد نهائي — حذف كل شيء؟':'Final confirm — delete everything?'))return;prods=JSON.parse(JSON.stringify(DF_PRODS));cats=JSON.parse(JSON.stringify(DF_CATS));pays=JSON.parse(JSON.stringify(DF_PAYS));zones=JSON.parse(JSON.stringify(DF_ZONES));dlvr={...DF_DLVR};cart=[];orders=[];users=[];coupons=[];banners=[];custNotes={};custBlocks=[];stg={};cu=null;appliedCoupon=null;['prods','cats','pays','zones','dlvr','cart','orders','users','coupons','banners','custNotes','custBlocks','stg','user'].forEach(k=>localStorage.removeItem(k));SS('prods',prods);SS('cats',cats);SS('pays',pays);SS('zones',zones);SS('dlvr',dlvr);SS('cart',cart);SS('orders',orders);SS('users',users);SS('coupons',coupons);SS('banners',banners);SS('custNotes',custNotes);SS('custBlocks',custBlocks);SS('stg',stg);alert(t('resetDone'));R()}
 
 function saveProd(){
   const ar=document.getElementById('p-ar')?.value?.trim(),en=document.getElementById('p-en')?.value?.trim();
@@ -351,6 +361,56 @@ function delCoup(i){if(!confirm(L==='ar'?'حذف؟':'Delete?'))return;if(applied
 function editCoupPct(i){const np=parseFloat(document.getElementById('cp-e-'+i)?.value)||0;if(np<1||np>100)return;coupons[i].pct=np;SS('coupons',coupons);alert(t('updated'));R()}
 function applyCouponCode(){const code=document.getElementById('cart-coup')?.value?.trim()?.toUpperCase();if(!code){appliedCoupon=null;R();return}const c=coupons.find(x=>x.code===code&&x.on);if(c){appliedCoupon=c;R()}else{appliedCoupon=null;alert(t('coupInvalid'));R()}}
 function removeCoupon(){appliedCoupon=null;R()}
+
+// ═══ BANNERS ═══
+function addBanner(){
+  const tAr=document.getElementById('bn-tar')?.value?.trim()||'';
+  const tEn=document.getElementById('bn-ten')?.value?.trim()||'';
+  const dAr=document.getElementById('bn-dar')?.value?.trim()||'';
+  const dEn=document.getElementById('bn-den')?.value?.trim()||'';
+  const bg1=document.getElementById('bn-bg1')?.value||'#2D2A26';
+  const bg2=document.getElementById('bn-bg2')?.value||'#6B5B4E';
+  const emoji=document.getElementById('bn-emoji')?.value?.trim()||'🎁';
+  const btn=document.getElementById('bn-btn')?.value?.trim()||'';
+  const link=document.getElementById('bn-link')?.value?.trim()||'';
+  if(!tAr&&!tEn){alert(t('reqF'));return}
+  banners.push({id:Date.now(),tAr,tEn,dAr,dEn,bg1,bg2,emoji,btn,link,on:true});
+  SS('banners',banners);alert(t('added'));R();
+}
+function delBanner(i){if(!confirm(L==='ar'?'حذف؟':'Delete?'))return;banners.splice(i,1);SS('banners',banners);R()}
+function tgBanner(i){banners[i].on=!banners[i].on;SS('banners',banners);R()}
+function getSlides(){
+  const slides=[];
+  // 1. Custom banners
+  banners.filter(b=>b.on).forEach(b=>{
+    slides.push({type:'promo',tAr:b.tAr,tEn:b.tEn,dAr:b.dAr,dEn:b.dEn,bg:`linear-gradient(135deg,${b.bg1},${b.bg2})`,emoji:b.emoji,btn:b.btn,link:b.link});
+  });
+  // 2. New products (last 3 added with stock)
+  const newP=prods.filter(p=>p.on&&p.stock>0).slice(-3).reverse();
+  if(newP.length){
+    slides.push({type:'new',products:newP,bg:'linear-gradient(135deg,#2D2A26,#4A3F35,#6B5B4E)'});
+  }
+  // 3. Active coupons
+  const activeCoup=coupons.filter(c=>c.on);
+  activeCoup.forEach(c=>{
+    slides.push({type:'offer',code:c.code,pct:c.pct,bg:'linear-gradient(135deg,#1B4332,#2D6A4F)'});
+  });
+  // Fallback
+  if(!slides.length){
+    slides.push({type:'new',products:prods.filter(p=>p.on).slice(0,3),bg:'linear-gradient(135deg,#2D2A26,#4A3F35,#6B5B4E)'});
+  }
+  return slides;
+}
+function goSlide(i){const sl=getSlides();slideIdx=((i%sl.length)+sl.length)%sl.length;const track=document.getElementById('sl-track');if(track)track.style.transform=`translateX(${L==='ar'?'':'-'}${slideIdx*100}%)`;document.querySelectorAll('.sdot').forEach((d,di)=>d.classList.toggle('on',di===slideIdx))}
+function startSlider(){clearInterval(slideTimer);slideTimer=setInterval(()=>goSlide(slideIdx+1),4000)}
+function initSlider(){
+  slideIdx=0;startSlider();
+  const el=document.getElementById('sl-wrap');if(!el)return;
+  let sx=0,dx=0;
+  el.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;dx=0;clearInterval(slideTimer)},{passive:true});
+  el.addEventListener('touchmove',e=>{dx=e.touches[0].clientX-sx},{passive:true});
+  el.addEventListener('touchend',()=>{if(Math.abs(dx)>40){const dir=L==='ar'?(dx<0?-1:1):(dx>0?-1:1);goSlide(slideIdx-dir)}startSlider()},{passive:true});
+}
 
 function getAllCusts(){
   const map={};
@@ -422,6 +482,24 @@ function rNav(){
   const tabs=[{k:'home',l:t('shop'),i:'home'},{k:'cart',l:t('cartT'),i:'cart',b:cart.length},{k:'orders',l:t('ordersT'),i:'orders'},{k:'acc',l:t('acc'),i:'acc'}];
   return`<nav class="nav">${tabs.map(x=>`<button class="nb" onclick="nav('${x.k}')">${IC[x.i](pg===x.k)}${x.b>0?`<span class="bdg">${x.b}</span>`:''}<span style="font-size:9px;color:${pg===x.k?'#C8956C':'#8A8580'};font-weight:${pg===x.k?700:500}">${x.l}</span></button>`).join('')}</nav>`}
 
+function rSlider(){
+  const slides=getSlides();
+  const d=L==='ar'?'right':'left';
+  let html=`<div class="slider fu" id="sl-wrap"><div class="slider-track" id="sl-track" style="transform:translateX(${L==='ar'?'':'-'}${slideIdx*100}%)">`;
+  slides.forEach((s,i)=>{
+    if(s.type==='new'){
+      const names=s.products.map(p=>pn(p)).join(' • ');
+      html+=`<div class="slide" style="background:${s.bg}"><div style="position:absolute;top:-30px;${d}:-30px;width:120px;height:120px;border-radius:50%;background:rgba(200,149,108,.12)"></div><div style="display:flex;gap:8px;margin-bottom:8px;position:relative">${s.products.map(p=>`<div style="width:44px;height:44px;border-radius:12px;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;overflow:hidden">${p.photo?`<img src="${p.photo}" style="width:100%;height:100%;object-fit:cover"/>`:p.img}</div>`).join('')}</div><div style="font-family:'Playfair Display',serif;font-size:18px;color:#FAF7F2;font-weight:600;position:relative">${t('na')}</div><div style="font-size:11px;color:rgba(250,247,242,.5);margin-top:2px;position:relative;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">${names}</div></div>`;
+    }else if(s.type==='offer'){
+      html+=`<div class="slide" style="background:${s.bg}"><div style="position:absolute;top:-20px;${d}:-20px;width:100px;height:100px;border-radius:50%;background:rgba(255,255,255,.05)"></div><div style="display:flex;align-items:center;gap:12px;position:relative"><div style="width:56px;height:56px;border-radius:16px;background:rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-size:28px">🎟️</div><div><div style="font-size:10px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:1px;font-weight:600">${L==='ar'?'كود خصم':'Discount Code'}</div><div style="font-size:24px;font-weight:800;color:#fff;font-family:monospace;letter-spacing:2px;margin-top:2px">${s.code}</div><div style="margin-top:4px"><span style="display:inline-flex;padding:3px 12px;border-radius:10px;background:rgba(255,255,255,.15);color:#8FD4A0;font-size:12px;font-weight:700">${s.pct}% ${L==='ar'?'خصم':'OFF'}</span></div></div></div></div>`;
+    }else{
+      html+=`<div class="slide" style="background:${s.bg}"><div style="position:absolute;top:-30px;${d}:-30px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.08)"></div><div style="display:flex;align-items:center;gap:14px;position:relative"><div style="font-size:40px;flex-shrink:0">${s.emoji||'🎁'}</div><div><div style="font-family:'Playfair Display',serif;font-size:18px;color:#FAF7F2;font-weight:600">${L==='ar'?s.tAr||s.tEn:s.tEn||s.tAr}</div><div style="font-size:11px;color:rgba(250,247,242,.5);margin-top:3px">${L==='ar'?s.dAr||s.dEn:s.dEn||s.dAr}</div>${s.btn?`<${s.link?`a href="${s.link}" target="_blank" rel="noopener"`:'button'} style="margin-top:8px;display:inline-flex;background:#C8956C;color:#fff;padding:6px 16px;border-radius:16px;font-size:11px;font-weight:600;border:none;cursor:pointer;text-decoration:none">${L==='ar'?s.btn:s.btn}</${s.link?'a':'button'}>`:''}</div></div></div>`;
+    }
+  });
+  html+=`</div><div class="slider-dots">${slides.map((_,i)=>`<div class="sdot ${i===slideIdx?'on':''}" onclick="goSlide(${i});startSlider()"></div>`).join('')}</div></div>`;
+  return html;
+}
+
 function rShop(){
   const vis=prods.filter(p=>p.on&&p.stock>0);
   const fl=cat==='all'?vis:vis.filter(p=>p.cat===cat);
@@ -429,7 +507,7 @@ function rShop(){
   const igL=stg.igLink||'https://www.instagram.com/inspired.by.eisha';
   const igN=stg.igAcc||'@inspired.by.eisha';
   return`<div class="pg"><div class="hd"><div><div style="font-family:'Playfair Display',Georgia,serif;font-size:24px;font-weight:700;letter-spacing:-.5px">inspired</div><div style="font-size:9px;color:#8A8580;letter-spacing:3px;text-transform:uppercase">by eisha</div></div>${rLT()}</div>
-  <div class="fu" style="margin:0 12px 12px;border-radius:18px;padding:22px 18px;background:linear-gradient(135deg,#2D2A26,#4A3F35,#6B5B4E);position:relative;overflow:hidden"><div style="position:absolute;top:-30px;${d}:-30px;width:120px;height:120px;border-radius:50%;background:rgba(200,149,108,.12)"></div><div style="font-family:'Playfair Display',serif;font-size:20px;color:#FAF7F2;font-weight:600;position:relative">${t('na')}</div><div style="font-size:12px;color:rgba(250,247,242,.6);margin-top:4px;position:relative">${t('cur')}</div><button style="margin-top:12px;display:inline-flex;background:#C8956C;color:#fff;padding:8px 20px;border-radius:20px;font-size:12px;font-weight:600;border:none;cursor:pointer;position:relative">${t('sn')} ${L==='ar'?'←':'→'}</button></div>
+  ${rSlider()}
   <a href="${igL}" target="_blank" rel="noopener" style="margin:0 12px 12px;padding:10px 14px;border-radius:12px;background:linear-gradient(135deg,#833AB4,#E1306C,#F77737);display:flex;align-items:center;gap:10px;text-decoration:none"><span style="font-size:20px">📷</span><div><div style="font-size:12px;font-weight:700;color:#fff">${igN}</div><div style="font-size:9px;color:rgba(255,255,255,.8)">${t('fig')}</div></div></a>
   <div style="display:flex;gap:6px;padding:0 12px 12px;overflow-x:auto">${cats.filter(c=>c.on).map(c=>`<button onclick="setC('${c.k}')" style="padding:6px 14px;border-radius:18px;border:none;cursor:pointer;font-size:11px;font-weight:600;white-space:nowrap;background:${cat===c.k?'#2D2A26':'transparent'};color:${cat===c.k?'#fff':'#8A8580'};font-family:inherit">${cn(c)}</button>`).join('')}</div>
   <div class="grid">${fl.map((p,i)=>`<div class="c fu" style="overflow:hidden;animation-delay:${i*50}ms"><div style="height:130px;background:linear-gradient(135deg,#F5F0EA,#EDE8E1);display:flex;align-items:center;justify-content:center;font-size:44px;position:relative;overflow:hidden">${p.photo?`<img src="${p.photo}" style="width:100%;height:100%;object-fit:cover"/>`:p.img}<span style="position:absolute;top:8px;${d}:8px;padding:2px 7px;border-radius:5px;background:rgba(255,255,255,.85);font-size:8px;font-weight:600;color:#8A8580">${cn(cats.find(c=>c.k===p.cat)||cats[0])}</span></div><div style="padding:8px 10px 12px"><div style="font-size:12px;font-weight:600;line-height:1.3">${pn(p)}</div>${pd(p)?`<div style="font-size:10px;color:#8A8580;margin-top:2px;line-height:1.4">${pd(p)}</div>`:''}<div style="display:flex;align-items:center;gap:3px;margin-top:4px"><span style="font-size:10px;color:#E8A838">★</span><span style="font-size:10px;color:#8A8580">${p.r} (${p.rv})</span></div><div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px"><span style="font-size:15px;font-weight:700">${p.price} <span style="font-size:9px;font-weight:500;color:#8A8580">${t('qar')}</span></span><button id="ab-${p.id}" class="ab" onclick="event.stopPropagation();addToCart(${p.id})">+</button></div></div></div>`).join('')}</div></div>`}
@@ -510,7 +588,7 @@ function rAL(){if(!showAL)return'';return`<div class="aov" onclick="closeAL()"><
 // ADMIN
 // ════════════════════════════
 function rANav(){
-  const tabs=[{k:'dash',ic:'📊',l:t('dash')},{k:'fin',ic:'💰',l:t('frTitle')},{k:'ords',ic:'📋',l:t('admOrds')},{k:'prods',ic:'📦',l:t('prodsT')},{k:'custs',ic:'👥',l:t('custDB')},{k:'cats',ic:'🏷️',l:t('catsT')},{k:'stk',ic:'📋',l:t('stk')},{k:'coup',ic:'🎟️',l:t('coupT')},{k:'dlvr',ic:'🚚',l:t('dlvrT')},{k:'pay',ic:'⚙️',l:t('payS')},{k:'ig',ic:'📷',l:t('igS')},{k:'reset',ic:'🔄',l:t('resetAll')}];
+  const tabs=[{k:'dash',ic:'📊',l:t('dash')},{k:'fin',ic:'💰',l:t('frTitle')},{k:'ords',ic:'📋',l:t('admOrds')},{k:'bnr',ic:'🖼️',l:t('bnrT')},{k:'prods',ic:'📦',l:t('prodsT')},{k:'custs',ic:'👥',l:t('custDB')},{k:'cats',ic:'🏷️',l:t('catsT')},{k:'stk',ic:'📋',l:t('stk')},{k:'coup',ic:'🎟️',l:t('coupT')},{k:'dlvr',ic:'🚚',l:t('dlvrT')},{k:'pay',ic:'⚙️',l:t('payS')},{k:'ig',ic:'📷',l:t('igS')},{k:'reset',ic:'🔄',l:t('resetAll')}];
   return`<div class="atab">${tabs.map(x=>`<button class="at ${ap===x.k?'on':''}" onclick="goA('${x.k}')">${x.ic} ${x.l}</button>`).join('')}</div>`}
 
 function rADash(){
@@ -738,6 +816,51 @@ function rAFin(){
   `}
   </div>`}
 
+function rABnr(){
+  return`${rANav()}<div style="padding:0 12px">
+  <div style="font-size:14px;font-weight:700;margin-bottom:12px">🖼️ ${t('bnrT')}</div>
+  <!-- Auto slides info -->
+  <div class="c" style="padding:14px;margin-bottom:10px;background:#F5F0EA;border:none">
+    <div style="font-size:11px;font-weight:700;margin-bottom:8px">⚡ ${L==='ar'?'سلايدات تلقائية':'Auto Slides'}</div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap">
+      <span style="padding:5px 10px;border-radius:8px;background:#fff;font-size:10px;font-weight:600;display:flex;align-items:center;gap:4px">🆕 ${t('bnrAutoNew')} <span style="color:#5B9A6F">✓</span></span>
+      <span style="padding:5px 10px;border-radius:8px;background:#fff;font-size:10px;font-weight:600;display:flex;align-items:center;gap:4px">🎟️ ${t('bnrAutoOffer')} ${coupons.filter(c=>c.on).length?`<span style="color:#5B9A6F">✓ (${coupons.filter(c=>c.on).length})</span>`:`<span style="color:#8A8580">—</span>`}</span>
+    </div>
+    <div style="font-size:9px;color:#8A8580;margin-top:6px;line-height:1.5">${L==='ar'?'المنتجات الجديدة وأكواد الخصم المفعلة تظهر تلقائياً في السلايدر':'New products and active discount codes automatically appear in the slider'}</div>
+  </div>
+  <!-- Custom banners list -->
+  ${banners.length?banners.map((b,i)=>`<div class="c" style="margin-bottom:6px;padding:12px">
+    <div style="display:flex;align-items:center;gap:10px">
+      <div style="width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,${b.bg1},${b.bg2});display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">${b.emoji||'🎁'}</div>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:12px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${L==='ar'?b.tAr||b.tEn:b.tEn||b.tAr}</div>
+        <div style="font-size:10px;color:#8A8580;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${L==='ar'?b.dAr||b.dEn:b.dEn||b.dAr}</div>
+      </div>
+      <button onclick="tgBanner(${i})" class="tg" style="background:${b.on?'#5B9A6F15':'#EF444415'};color:${b.on?'#5B9A6F':'#EF4444'}">${b.on?'✓':'✗'}</button>
+      <button onclick="delBanner(${i})" class="tg" style="background:#FEF2F2;color:#EF4444">🗑️</button>
+    </div>
+  </div>`).join(''):`<div style="text-align:center;padding:20px 0;color:#8A8580;font-size:12px">${t('bnrNoBnr')}</div>`}
+  <!-- Add banner form -->
+  <div class="c" style="padding:14px;margin-top:10px;border:2px dashed #EDE8E1">
+    <div style="font-size:12px;font-weight:700;margin-bottom:10px">+ ${t('bnrAdd')}</div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div style="display:flex;gap:6px"><input class="i" id="bn-tar" placeholder="${t('bnrTitleAr')}" style="flex:1;padding:8px 10px;font-size:12px"/><input class="i" id="bn-ten" placeholder="${t('bnrTitleEn')}" dir="ltr" style="flex:1;padding:8px 10px;font-size:12px"/></div>
+      <div style="display:flex;gap:6px"><input class="i" id="bn-dar" placeholder="${t('bnrDescAr')}" style="flex:1;padding:8px 10px;font-size:12px"/><input class="i" id="bn-den" placeholder="${t('bnrDescEn')}" dir="ltr" style="flex:1;padding:8px 10px;font-size:12px"/></div>
+      <div style="display:flex;gap:6px;align-items:center">
+        <input class="i" id="bn-emoji" placeholder="🎁" style="width:50px;padding:8px;font-size:20px;text-align:center" dir="ltr"/>
+        <input class="i" id="bn-btn" placeholder="${t('bnrBtn')}" style="flex:1;padding:8px 10px;font-size:12px"/>
+        <input class="i" id="bn-link" placeholder="${t('bnrLink')}" dir="ltr" style="flex:1;padding:8px 10px;font-size:12px"/>
+      </div>
+      <div style="display:flex;gap:6px;align-items:center">
+        <div style="display:flex;align-items:center;gap:4px;flex:1"><span style="font-size:10px;color:#8A8580">${t('bnrBg1')}</span><input id="bn-bg1" type="color" value="#2D2A26" style="width:36px;height:30px;border:none;border-radius:6px;cursor:pointer"/></div>
+        <div style="display:flex;align-items:center;gap:4px;flex:1"><span style="font-size:10px;color:#8A8580">${t('bnrBg2')}</span><input id="bn-bg2" type="color" value="#6B5B4E" style="width:36px;height:30px;border:none;border-radius:6px;cursor:pointer"/></div>
+        <div id="bn-preview" style="flex:2;height:30px;border-radius:8px;background:linear-gradient(135deg,#2D2A26,#6B5B4E)"></div>
+      </div>
+      <button class="bp" onclick="addBanner()" style="font-size:12px;padding:10px 0">${t('bnrAdd')} +</button>
+    </div>
+  </div>
+  </div>`}
+
 function rAOrds(){
   const stLabels={prc:t('prc'),shp:t('shp'),del:t('del')};
   if(!orders.length)return`${rANav()}<div style="text-align:center;padding:50px 18px;color:#8A8580"><div style="font-size:44px;margin-bottom:10px">📦</div><div style="font-size:14px;font-weight:500">${t('noOrders')}</div></div>`;
@@ -943,13 +1066,14 @@ function rACoup(){
   </div></div>`}
 
 function rAdmin(){
-  const sub={dash:rADash,fin:rAFin,ords:rAOrds,prods:rAProds,addp:rAAddP,stk:rAStk,cats:rACats,pays:rAPays,dlvr:rADlvr,pay:rAPayS,ig:rAIG,coup:rACoup,custs:rACusts,reset:rAReset};
+  const sub={dash:rADash,fin:rAFin,ords:rAOrds,bnr:rABnr,prods:rAProds,addp:rAAddP,stk:rAStk,cats:rACats,pays:rAPays,dlvr:rADlvr,pay:rAPayS,ig:rAIG,coup:rACoup,custs:rACusts,reset:rAReset};
   return`<div style="padding-bottom:16px"><div class="hd"><div><div class="tt">🔐 ${t('adm')}</div><div style="font-size:10px;color:#8A8580">👤 ${ADM_U}</div></div><div style="display:flex;gap:6px;align-items:center">${rLT()}<button onclick="admOut()" style="padding:4px 10px;border-radius:12px;border:1px solid #EF444430;background:#FEF2F2;font-size:10px;font-weight:600;cursor:pointer;color:#EF4444">${t('admO')}</button></div></div>${(sub[ap]||rADash)()}</div>`}
 
 function R(){
   const pages={home:rShop,cart:rCart,orders:rOrd,acc:rAcc,admin:rAdmin};
   document.getElementById('app').innerHTML=(pages[pg]||rShop)()+rNav()+rAS()+rAL();
   if(showAL){const i=document.getElementById('al-u');i&&i.focus()}
+  if(pg==='home')setTimeout(initSlider,50);
 }
 
 document.body.dir=L==='ar'?'rtl':'ltr';
