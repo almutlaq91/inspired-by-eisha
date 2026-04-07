@@ -2,8 +2,8 @@ exports.handler = async (event) => {
   const H = {'Content-Type':'application/json','Access-Control-Allow-Origin':'*','Access-Control-Allow-Headers':'Content-Type','Access-Control-Allow-Methods':'POST, OPTIONS'};
   if (event.httpMethod === 'OPTIONS') return {statusCode:204,headers:H,body:''};
   if (event.httpMethod !== 'POST') return {statusCode:405,headers:H,body:JSON.stringify({error:'Method not allowed'})};
-  const TOKEN = 'SK_KWT_vVZlnnAqu8jRByOWaRPNId4ShzEDNt256dvnjebuyzo52dXjAfRx2ixW5umjWSUx';
-  const BASE = 'https://apitest.myfatoorah.com';
+  const TOKEN = 'SK_QAT_IwOx1ozWy8tIT0O7hITNGi4HJSEZyDlYT9GxKek65cQtQ6oZNaJUiU17CV0v3Jvm';
+  const BASE = 'https://api-qa.myfatoorah.com';
   try {
     const {amount,customerName} = JSON.parse(event.body);
     const SITE = process.env.URL || 'https://inspired-by-eisha.com';
@@ -14,8 +14,8 @@ exports.handler = async (event) => {
         NotificationOption:'LNK',
         InvoiceValue:amount||1,
         CustomerName:customerName||'Customer',
-        DisplayCurrencyIso:'KWD',
-        MobileCountryCode:'+965',
+        DisplayCurrencyIso:'QAR',
+        MobileCountryCode:'+974',
         CustomerMobile:'12345678',
         CallBackUrl:SITE+'/payment-success.html',
         ErrorUrl:SITE+'/payment-error.html',
