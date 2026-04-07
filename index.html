@@ -117,6 +117,8 @@ let gm=false,gi=null,oNotes='';
 let ap='dash',editId=null;
 // delivery selection
 let selZone='',selType='normal'; // normal|cart
+let coupons=LS('coupons')||[];
+let appliedCoupon=null;
 
 const sv=k=>SS(k,({prods,cats,pays,zones,dlvr,cart,users,orders,stg})[k]);
 
@@ -155,6 +157,7 @@ addCat:'إضافة تصنيف',catAr:'عربي',catEn:'انجليزي',catKey:'�
 lowStk:'مخزون منخفض',outStk:'نفد',inStk:'متوفر',
 addZone:'إضافة منطقة',zoneName:'اسم المنطقة',zoneEn:'بالانجليزي',
 recentO:'آخر الطلبات',topP:'الأكثر مبيعاً',
+coupT:'أكواد الخصم',addCoup:'إضافة كود',coupCode:'كود الخصم',coupPct:'نسبة الخصم %',coupOn:'مفعل',coupOff:'معطل',noCoup:'لا توجد أكواد',applyCoup:'تطبيق',removeCoup:'إزالة',coupApplied:'تم تطبيق الخصم!',coupInvalid:'كود غير صالح',coupPlace:'أدخل كود الخصم',discount:'الخصم',
 },en:{
 shop:'Shop',cartT:'Cart',ordersT:'Orders',acc:'Account',
 na:'New Arrivals',cur:'Curated for you',sn:'Shop Now',fig:'Follow on Instagram',
@@ -189,6 +192,7 @@ addCat:'Add Category',catAr:'Arabic',catEn:'English',catKey:'Key',noDelAll:"Can'
 lowStk:'Low Stock',outStk:'Out',inStk:'In Stock',
 addZone:'Add Zone',zoneName:'Zone Name',zoneEn:'English',
 recentO:'Recent Orders',topP:'Top Products',
+coupT:'Discount Codes',addCoup:'Add Code',coupCode:'Discount Code',coupPct:'Discount %',coupOn:'Active',coupOff:'Disabled',noCoup:'No codes',applyCoup:'Apply',removeCoup:'Remove',coupApplied:'Discount applied!',coupInvalid:'Invalid code',coupPlace:'Enter discount code',discount:'Discount',
 }};
 const t=k=>(T[L]||T.ar)[k]||k;
 const pn=p=>L==='ar'?p.ar:p.en;
@@ -242,8 +246,9 @@ function selPay(i){sp=i;R()}
 async function doPay(){
   const cName=cu?cu.name:(gi?gi.name:'Guest');
   const sub=cart.reduce((a,c)=>a+c.price,0);
+  const disc=appliedCoupon?Math.round(sub*appliedCoupon.pct/100):0;
   const ship=calcShip();
-  const total=sub+ship;
+  const total=sub-disc+ship;
   const ordId='INS-'+Date.now().toString(36).toUpperCase()+Math.floor(Math.random()*1000);
   // Show loading
   const payBtn=document.getElementById('pay-btn');
@@ -260,9 +265,9 @@ async function doPay(){
       // Update stock
       cart.forEach(ci=>{const p=prods.find(x=>x.id===ci.id);if(p&&p.stock>0)p.stock--});SS('prods',prods);
       // Save order
-      const ord={id:data.invoiceId||ordId,items:cart.map(c=>({id:c.id,nm:pn(c),pr:c.price})),total,ship,zone:selZone,dlvrType:selType,status:'prc',date:new Date().toLocaleDateString('en',{month:'short',day:'numeric'}),cust:cName,phone:cu?cu.phone:(gi?gi.phone:''),notes:oNotes};
+      const ord={id:data.invoiceId||ordId,items:cart.map(c=>({id:c.id,nm:pn(c),pr:c.price})),total,ship,disc,coupon:appliedCoupon?appliedCoupon.code:'',zone:selZone,dlvrType:selType,status:'prc',date:new Date().toLocaleDateString('en',{month:'short',day:'numeric'}),cust:cName,phone:cu?cu.phone:(gi?gi.phone:''),notes:oNotes};
       orders.push(ord);SS('orders',orders);
-      cart=[];SS('cart',cart);
+      cart=[];SS('cart',cart);appliedCoupon=null;
       // Redirect to MyFatoorah
       window.location.href=data.paymentUrl;
     }else{
@@ -330,6 +335,14 @@ function svDlvr(){dlvr.closePrice=parseFloat(document.getElementById('d-cp')?.va
 function svMF(){stg.mfToken=document.getElementById('mf-t')?.value?.trim()||'';stg.mfMode=document.getElementById('mf-m')?.value||'test';SS('stg',stg);alert(t('mfSaved'))}
 function svIG(){stg.igAcc=document.getElementById('ig-a')?.value?.trim()||'';stg.igLink=document.getElementById('ig-l')?.value?.trim()||'';SS('stg',stg);alert(t('igSaved'))}
 
+// ═══ ADMIN: COUPONS ═══
+function addCoup(){const code=document.getElementById('cp-code')?.value?.trim()?.toUpperCase(),pct=parseFloat(document.getElementById('cp-pct')?.value)||0;if(!code||!pct||pct<1||pct>100)return alert(t('reqF'));if(coupons.find(c=>c.code===code))return alert('Code exists');coupons.push({code,pct,on:true});SS('coupons',coupons);alert(t('added'));R()}
+function tgCoup(i){coupons[i].on=!coupons[i].on;SS('coupons',coupons);if(appliedCoupon&&appliedCoupon.code===coupons[i].code&&!coupons[i].on)appliedCoupon=null;R()}
+function delCoup(i){if(!confirm(L==='ar'?'حذف؟':'Delete?'))return;if(appliedCoupon&&appliedCoupon.code===coupons[i].code)appliedCoupon=null;coupons.splice(i,1);SS('coupons',coupons);R()}
+function editCoupPct(i){const np=parseFloat(document.getElementById('cp-e-'+i)?.value)||0;if(np<1||np>100)return;coupons[i].pct=np;SS('coupons',coupons);alert(t('updated'));R()}
+function applyCouponCode(){const code=document.getElementById('cart-coup')?.value?.trim()?.toUpperCase();if(!code){appliedCoupon=null;R();return}const c=coupons.find(x=>x.code===code&&x.on);if(c){appliedCoupon=c;R()}else{appliedCoupon=null;alert(t('coupInvalid'));R()}}
+function removeCoupon(){appliedCoupon=null;R()}
+
 // ═══════════════════════════════
 // RENDER FUNCTIONS
 // ═══════════════════════════════
@@ -356,8 +369,9 @@ function rShop(){
 // ── CART ──
 function rCart(){
   const sub=cart.reduce((a,c)=>a+c.price,0);
+  const disc=appliedCoupon?Math.round(sub*appliedCoupon.pct/100):0;
   const ship=calcShip();
-  const tot=sub+ship;
+  const tot=sub-disc+ship;
   if(co){
     const cName=cu?cu.name:(gi?gi.name:'Guest');
     const cPhone=cu?cu.phone:(gi?gi.phone:'');
@@ -380,6 +394,7 @@ function rCart(){
         ${cart.map(c=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;font-size:12px"><span style="color:#2D2A26">${pn(c)}</span><span style="font-weight:600;color:#C8956C">${c.price} ${t('qar')}</span></div>`).join('')}
         <div style="height:1px;background:#EDE8E1;margin:8px 0"></div>
         <div style="display:flex;justify-content:space-between;font-size:11px;color:#8A8580;margin-bottom:4px"><span>${t('sub')}</span><span>${sub} ${t('qar')}</span></div>
+        ${disc>0?`<div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:4px"><span style="color:#5B9A6F">🎟️ ${t('discount')} (${appliedCoupon.pct}%)</span><span style="color:#5B9A6F;font-weight:600">-${disc} ${t('qar')}</span></div>`:''}
         <div style="display:flex;justify-content:space-between;font-size:11px;color:#8A8580"><span>${t('ship')}</span><span style="color:${ship===0?'#5B9A6F':'#8A8580'};font-weight:${ship===0?600:400}">${ship===0?t('free'):ship+' '+t('qar')}</span></div>
       </div>
       <div style="padding:14px 18px;border-bottom:1px solid #EDE8E1">
@@ -405,8 +420,10 @@ function rCart(){
   html+=`<div class="c" style="margin:10px 12px;padding:14px"><div style="font-size:12px;font-weight:700;margin-bottom:8px">📍 ${t('zone')}</div><select class="i" onchange="selZone=this.value;R()" style="font-size:13px"><option value="" ${!selZone?'selected':''}>${t('selZone')}</option>${zones.map(z=>`<option value="${z.name}" ${selZone===z.name?'selected':''}>${zn(z)}</option>`).join('')}</select>`;
   // Delivery type
   html+=`<div style="font-size:12px;font-weight:700;margin:12px 0 8px">🚚 ${t('ship')}</div></div>`;
+  // Coupon
+  html+=`<div class="c" style="margin:10px 12px;padding:14px"><div style="font-size:12px;font-weight:700;margin-bottom:8px">🎟️ ${t('coupCode')}</div>${appliedCoupon?`<div style="display:flex;align-items:center;gap:8px;padding:10px;border-radius:10px;background:#5B9A6F12;border:1px solid #5B9A6F30"><span style="font-size:12px;font-weight:700;color:#5B9A6F;flex:1">✅ ${appliedCoupon.code} (-${appliedCoupon.pct}%)</span><button onclick="removeCoupon()" style="padding:4px 10px;border-radius:8px;background:#FEF2F2;border:1px solid #FECACA;font-size:10px;font-weight:600;color:#EF4444;cursor:pointer">${t('removeCoup')}</button></div>`:`<div style="display:flex;gap:6px"><input class="i" id="cart-coup" placeholder="${t('coupPlace')}" dir="ltr" style="flex:1;padding:10px 12px;font-size:12px;text-transform:uppercase"/><button onclick="applyCouponCode()" style="padding:8px 16px;border-radius:12px;background:#C8956C;color:#fff;border:none;font-size:12px;font-weight:600;cursor:pointer">${t('applyCoup')}</button></div>`}</div>`;
   // Summary
-  html+=`<div class="c" style="margin:10px 12px;padding:14px"><div style="display:flex;justify-content:space-between;font-size:12px;color:#8A8580;margin-bottom:6px"><span>${t('sub')}</span><span>${sub} ${t('qar')}</span></div><div style="display:flex;justify-content:space-between;font-size:12px;color:#8A8580;margin-bottom:8px"><span>${t('ship')} ${selZone?'('+selZone+')':''}</span><span style="color:${ship===0?'#5B9A6F':'#8A8580'};font-weight:${ship===0?600:400}">${ship===0?t('free'):ship+' '+t('qar')}</span></div><div style="height:1px;background:#EDE8E1;margin-bottom:8px"></div><div style="display:flex;justify-content:space-between;font-size:16px;font-weight:700"><span>${t('tot')}</span><span>${tot} ${t('qar')}</span></div></div>`;
+  html+=`<div class="c" style="margin:10px 12px;padding:14px"><div style="display:flex;justify-content:space-between;font-size:12px;color:#8A8580;margin-bottom:6px"><span>${t('sub')}</span><span>${sub} ${t('qar')}</span></div>${disc>0?`<div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px"><span style="color:#5B9A6F">🎟️ ${t('discount')} (${appliedCoupon.pct}%)</span><span style="color:#5B9A6F;font-weight:600">-${disc} ${t('qar')}</span></div>`:''}<div style="display:flex;justify-content:space-between;font-size:12px;color:#8A8580;margin-bottom:8px"><span>${t('ship')} ${selZone?'('+selZone+')':''}</span><span style="color:${ship===0?'#5B9A6F':'#8A8580'};font-weight:${ship===0?600:400}">${ship===0?t('free'):ship+' '+t('qar')}</span></div><div style="height:1px;background:#EDE8E1;margin-bottom:8px"></div><div style="display:flex;justify-content:space-between;font-size:16px;font-weight:700"><span>${t('tot')}</span><span>${tot} ${t('qar')}</span></div></div>`;
   // Notes + Checkout
   html+=`<div style="padding:6px 12px"><textarea class="ta" id="o-notes" placeholder="📝 ${t('oNotes')} — ${t('oNotesH')}" style="margin-bottom:10px">${oNotes}</textarea><button class="bp" onclick="startCO()">${t('chk')}</button><div style="text-align:center;margin-top:8px;font-size:9px;color:#8A8580">${t('sec')} • ${t('pm')}</div></div></div>`;
   // Guest overlays
@@ -438,7 +455,7 @@ function rAL(){if(!showAL)return'';return`<div class="aov" onclick="closeAL()"><
 // ADMIN PAGES
 // ════════════════════════════
 function rANav(){
-  const tabs=[{k:'dash',ic:'📊',l:t('dash')},{k:'prods',ic:'📦',l:t('prodsT')},{k:'cats',ic:'🏷️',l:t('catsT')},{k:'stk',ic:'📋',l:t('stk')},{k:'dlvr',ic:'🚚',l:t('dlvrT')},{k:'pay',ic:'⚙️',l:t('payS')},{k:'ig',ic:'📷',l:t('igS')}];
+  const tabs=[{k:'dash',ic:'📊',l:t('dash')},{k:'prods',ic:'📦',l:t('prodsT')},{k:'cats',ic:'🏷️',l:t('catsT')},{k:'stk',ic:'📋',l:t('stk')},{k:'coup',ic:'🎟️',l:t('coupT')},{k:'dlvr',ic:'🚚',l:t('dlvrT')},{k:'pay',ic:'⚙️',l:t('payS')},{k:'ig',ic:'📷',l:t('igS')}];
   return`<div class="atab">${tabs.map(x=>`<button class="at ${ap===x.k?'on':''}" onclick="goA('${x.k}')">${x.ic} ${x.l}</button>`).join('')}</div>`}
 
 function rADash(){
@@ -495,8 +512,32 @@ function rAPayS(){
 function rAIG(){
   return`${rANav()}<div style="padding:0 12px"><div style="font-size:14px;font-weight:700;margin-bottom:12px">📷 Instagram</div><div style="display:flex;flex-direction:column;gap:10px"><input class="i" id="ig-a" placeholder="@inspired.by.eisha" dir="ltr" value="${stg.igAcc||'@inspired.by.eisha'}"/><input class="i" id="ig-l" placeholder="https://instagram.com/..." dir="ltr" value="${stg.igLink||'https://www.instagram.com/inspired.by.eisha'}"/><button class="bp" onclick="svIG()">${t('save')}</button></div></div>`}
 
+function rACoup(){
+  return`${rANav()}<div style="padding:0 12px">
+  <div style="font-size:14px;font-weight:700;margin-bottom:12px">🎟️ ${t('coupT')}</div>
+  ${coupons.length?coupons.map((c,i)=>`<div class="c" style="margin-bottom:6px;padding:12px;display:flex;align-items:center;gap:8px">
+    <div style="flex:1">
+      <div style="font-size:13px;font-weight:700;font-family:monospace;letter-spacing:1px;color:#2D2A26">${c.code}</div>
+      <div style="display:flex;align-items:center;gap:6px;margin-top:4px">
+        <input class="i" id="cp-e-${i}" type="number" value="${c.pct}" min="1" max="100" dir="ltr" style="width:60px;padding:6px 8px;font-size:12px;font-weight:700;text-align:center"/>
+        <span style="font-size:11px;color:#8A8580">%</span>
+        <button onclick="editCoupPct(${i})" style="padding:4px 10px;border-radius:6px;background:#C8956C;color:#fff;border:none;font-size:9px;font-weight:600;cursor:pointer">💾</button>
+      </div>
+    </div>
+    <button onclick="tgCoup(${i})" class="tg" style="background:${c.on?'#5B9A6F15':'#EF444415'};color:${c.on?'#5B9A6F':'#EF4444'}">${c.on?t('coupOn'):t('coupOff')}</button>
+    <button onclick="delCoup(${i})" class="tg" style="background:#FEF2F2;color:#EF4444">🗑️</button>
+  </div>`).join(''):`<div style="text-align:center;padding:30px 0;color:#8A8580;font-size:13px">${t('noCoup')}</div>`}
+  <div class="c" style="padding:14px;margin-top:10px;border:2px dashed #EDE8E1">
+    <div style="font-size:12px;font-weight:700;margin-bottom:10px">+ ${t('addCoup')}</div>
+    <div style="display:flex;gap:6px;align-items:center">
+      <input class="i" id="cp-code" placeholder="${t('coupCode')}" dir="ltr" style="flex:1;padding:8px 10px;font-size:12px;text-transform:uppercase"/>
+      <input class="i" id="cp-pct" type="number" placeholder="%" min="1" max="100" dir="ltr" style="width:60px;padding:8px;font-size:12px;text-align:center"/>
+      <button class="bp" onclick="addCoup()" style="width:auto;padding:8px 16px;font-size:11px">+</button>
+    </div>
+  </div></div>`}
+
 function rAdmin(){
-  const sub={dash:rADash,prods:rAProds,addp:rAAddP,stk:rAStk,cats:rACats,pays:rAPays,dlvr:rADlvr,pay:rAPayS,ig:rAIG};
+  const sub={dash:rADash,prods:rAProds,addp:rAAddP,stk:rAStk,cats:rACats,pays:rAPays,dlvr:rADlvr,pay:rAPayS,ig:rAIG,coup:rACoup};
   return`<div style="padding-bottom:16px"><div class="hd"><div><div class="tt">🔐 ${t('adm')}</div><div style="font-size:10px;color:#8A8580">👤 ${ADM_U}</div></div><div style="display:flex;gap:6px;align-items:center">${rLT()}<button onclick="admOut()" style="padding:4px 10px;border-radius:12px;border:1px solid #EF444430;background:#FEF2F2;font-size:10px;font-weight:600;cursor:pointer;color:#EF4444">${t('admO')}</button></div></div>${(sub[ap]||rADash)()}</div>`}
 
 // ═══ MAIN RENDER ═══
