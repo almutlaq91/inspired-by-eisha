@@ -170,6 +170,7 @@ frTitle:'التقرير المالي',frDaily:'يومي',frWeekly:'أسبوعي'
 frRevenue:'الإيرادات',frOrders:'الطلبات',frAvgOrder:'متوسط الطلب',frDelivery:'التوصيل',frDiscounts:'الخصومات',frNet:'الصافي',
 frTopProducts:'الأكثر مبيعاً',frTopZones:'المناطق الأكثر طلباً',frNoData:'لا توجد بيانات لهذه الفترة',
 frSold:'مبيع',frGrowth:'النمو',frCompare:'مقارنة بالفترة السابقة',frPeriodLabel:'الفترة',
+admOrds:'إدارة الطلبات',delOrd:'حذف',delAllOrd:'حذف جميع الطلبات',delAllConfirm:'هل تريد حذف جميع الطلبات؟ لا يمكن التراجع!',resetAll:'استعادة الافتراضي',resetConfirm:'هل تريد استعادة جميع البيانات للوضع الافتراضي؟ سيتم حذف كل شيء!',resetDone:'تم استعادة الافتراضي!',noOrders:'لا توجد طلبات',ordDeleted:'تم حذف الطلب',allDeleted:'تم حذف جميع الطلبات',changeStatus:'تغيير الحالة',
 },en:{
 shop:'Shop',cartT:'Cart',ordersT:'Orders',acc:'Account',
 na:'New Arrivals',cur:'Curated for you',sn:'Shop Now',fig:'Follow on Instagram',
@@ -210,6 +211,7 @@ frTitle:'Financial Report',frDaily:'Daily',frWeekly:'Weekly',frMonthly:'Monthly'
 frRevenue:'Revenue',frOrders:'Orders',frAvgOrder:'Avg Order',frDelivery:'Delivery',frDiscounts:'Discounts',frNet:'Net',
 frTopProducts:'Top Products',frTopZones:'Top Zones',frNoData:'No data for this period',
 frSold:'sold',frGrowth:'Growth',frCompare:'vs previous period',frPeriodLabel:'Period',
+admOrds:'Manage Orders',delOrd:'Delete',delAllOrd:'Delete All Orders',delAllConfirm:'Delete all orders? This cannot be undone!',resetAll:'Reset to Default',resetConfirm:'Reset all data to default? Everything will be deleted!',resetDone:'Reset complete!',noOrders:'No orders',ordDeleted:'Order deleted',allDeleted:'All orders deleted',changeStatus:'Change Status',
 }};
 const t=k=>(T[L]||T.ar)[k]||k;
 const pn=p=>L==='ar'?p.ar:p.en;
@@ -300,6 +302,10 @@ function openAL(){showAL=true;admE=false;R();setTimeout(()=>{const i=document.ge
 function closeAL(){showAL=false;R()}
 function tryAL(){const u=document.getElementById('al-u')?.value?.trim(),p=document.getElementById('al-p')?.value;if(u===ADM_U&&p===ADM_P){isAdm=true;showAL=false;admE=false;pg='admin';ap='dash';R()}else{admE=true;R();const b=document.querySelector('.abx');b&&(b.classList.add('shake'),setTimeout(()=>b.classList.remove('shake'),500))}}
 function admOut(){isAdm=false;pg='acc';R()}
+function delOrder(i){if(!confirm(L==='ar'?'حذف هذا الطلب؟':'Delete this order?'))return;orders.splice(i,1);SS('orders',orders);R()}
+function delAllOrders(){if(!confirm(t('delAllConfirm')))return;orders=[];SS('orders',orders);alert(t('allDeleted'));R()}
+function setOrdStatus(i,s){orders[i].status=s;SS('orders',orders);R()}
+function resetDefaults(){if(!confirm(t('resetConfirm')))return;if(!confirm(L==='ar'?'تأكيد نهائي — حذف كل شيء؟':'Final confirm — delete everything?'))return;prods=JSON.parse(JSON.stringify(DF_PRODS));cats=JSON.parse(JSON.stringify(DF_CATS));pays=JSON.parse(JSON.stringify(DF_PAYS));zones=JSON.parse(JSON.stringify(DF_ZONES));dlvr={...DF_DLVR};cart=[];orders=[];users=[];coupons=[];custNotes={};custBlocks=[];stg={};cu=null;appliedCoupon=null;['prods','cats','pays','zones','dlvr','cart','orders','users','coupons','custNotes','custBlocks','stg','user'].forEach(k=>localStorage.removeItem(k));SS('prods',prods);SS('cats',cats);SS('pays',pays);SS('zones',zones);SS('dlvr',dlvr);SS('cart',cart);SS('orders',orders);SS('users',users);SS('coupons',coupons);SS('custNotes',custNotes);SS('custBlocks',custBlocks);SS('stg',stg);alert(t('resetDone'));R()}
 
 function saveProd(){
   const ar=document.getElementById('p-ar')?.value?.trim(),en=document.getElementById('p-en')?.value?.trim();
@@ -501,7 +507,7 @@ function rAL(){if(!showAL)return'';return`<div class="aov" onclick="closeAL()"><
 // ADMIN
 // ════════════════════════════
 function rANav(){
-  const tabs=[{k:'dash',ic:'📊',l:t('dash')},{k:'fin',ic:'💰',l:t('frTitle')},{k:'prods',ic:'📦',l:t('prodsT')},{k:'custs',ic:'👥',l:t('custDB')},{k:'cats',ic:'🏷️',l:t('catsT')},{k:'stk',ic:'📋',l:t('stk')},{k:'coup',ic:'🎟️',l:t('coupT')},{k:'dlvr',ic:'🚚',l:t('dlvrT')},{k:'pay',ic:'⚙️',l:t('payS')},{k:'ig',ic:'📷',l:t('igS')}];
+  const tabs=[{k:'dash',ic:'📊',l:t('dash')},{k:'fin',ic:'💰',l:t('frTitle')},{k:'ords',ic:'📋',l:t('admOrds')},{k:'prods',ic:'📦',l:t('prodsT')},{k:'custs',ic:'👥',l:t('custDB')},{k:'cats',ic:'🏷️',l:t('catsT')},{k:'stk',ic:'📋',l:t('stk')},{k:'coup',ic:'🎟️',l:t('coupT')},{k:'dlvr',ic:'🚚',l:t('dlvrT')},{k:'pay',ic:'⚙️',l:t('payS')},{k:'ig',ic:'📷',l:t('igS')},{k:'reset',ic:'🔄',l:t('resetAll')}];
   return`<div class="atab">${tabs.map(x=>`<button class="at ${ap===x.k?'on':''}" onclick="goA('${x.k}')">${x.ic} ${x.l}</button>`).join('')}</div>`}
 
 function rADash(){
@@ -662,6 +668,66 @@ function rAFin(){
   `}
   </div>`}
 
+function rAOrds(){
+  const stLabels={prc:t('prc'),shp:t('shp'),del:t('del')};
+  if(!orders.length)return`${rANav()}<div style="text-align:center;padding:50px 18px;color:#8A8580"><div style="font-size:44px;margin-bottom:10px">📦</div><div style="font-size:14px;font-weight:500">${t('noOrders')}</div></div>`;
+  return`${rANav()}<div style="padding:0 12px">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+    <div style="font-size:14px;font-weight:700">📋 ${t('admOrds')} (${orders.length})</div>
+    <button onclick="delAllOrders()" style="padding:6px 14px;border-radius:10px;background:#FEF2F2;border:1px solid #FECACA;font-size:11px;font-weight:600;color:#EF4444;cursor:pointer">🗑️ ${t('delAllOrd')}</button>
+  </div>
+  ${orders.slice().reverse().map((o,ri)=>{const i=orders.length-1-ri;return`<div class="c fu" style="margin-bottom:8px;padding:14px;animation-delay:${ri*30}ms">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <div>
+        <div style="font-size:13px;font-weight:700">#${o.id}</div>
+        <div style="font-size:10px;color:#8A8580;margin-top:2px">👤 ${o.cust} • ${o.date}</div>
+      </div>
+      <span style="padding:3px 10px;border-radius:10px;font-size:10px;font-weight:600;background:${o.status==='del'?'#5B9A6F15':o.status==='shp'?'#4A90D915':'#C8956C15'};color:${o.status==='del'?'#5B9A6F':o.status==='shp'?'#4A90D9':'#C8956C'}">${stLabels[o.status]||o.status}</span>
+    </div>
+    <div style="margin-top:8px;padding:8px 10px;border-radius:10px;background:#F5F0EA">
+      ${o.items.map(x=>`<div style="display:flex;justify-content:space-between;font-size:11px;padding:2px 0"><span>${x.nm}</span><span style="font-weight:600">${x.pr} ${t('qar')}</span></div>`).join('')}
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;font-size:11px;color:#8A8580">
+      <span>📍 ${o.zone||'—'} ${o.ship?'• 🚚 '+o.ship+' '+t('qar'):''}${o.disc?(' • 🎟️ -'+o.disc+' '+t('qar')):''}</span>
+      <span style="font-size:14px;font-weight:800;color:#2D2A26">${o.total} ${t('qar')}</span>
+    </div>
+    ${o.notes?`<div style="font-size:10px;color:#C8956C;margin-top:4px">📝 ${o.notes}</div>`:''}
+    <div style="display:flex;gap:6px;margin-top:10px;align-items:center">
+      <select class="i" onchange="setOrdStatus(${i},this.value)" style="flex:1;padding:8px 10px;font-size:11px;font-weight:600">
+        <option value="prc" ${o.status==='prc'?'selected':''}>${t('prc')}</option>
+        <option value="shp" ${o.status==='shp'?'selected':''}>${t('shp')}</option>
+        <option value="del" ${o.status==='del'?'selected':''}>${t('del')}</option>
+      </select>
+      <button onclick="delOrder(${i})" style="padding:8px 14px;border-radius:10px;background:#FEF2F2;border:1px solid #FECACA;font-size:11px;font-weight:600;color:#EF4444;cursor:pointer;white-space:nowrap">🗑️ ${t('delOrd')}</button>
+    </div>
+  </div>`}).join('')}
+  </div>`}
+
+function rAReset(){
+  return`${rANav()}<div style="padding:0 12px">
+  <div style="text-align:center;padding:30px 0">
+    <div style="font-size:48px;margin-bottom:12px">🔄</div>
+    <div style="font-size:18px;font-weight:700;margin-bottom:6px">${t('resetAll')}</div>
+    <div style="font-size:12px;color:#8A8580;line-height:1.6;margin-bottom:20px;max-width:280px;margin-left:auto;margin-right:auto">${L==='ar'?'سيتم حذف جميع المنتجات والطلبات والعملاء والإعدادات واستعادة البيانات الافتراضية.':'All products, orders, customers, and settings will be deleted and reset to factory defaults.'}</div>
+    <div class="c" style="padding:16px;margin-bottom:16px;text-align:${L==='ar'?'right':'left'}">
+      <div style="font-size:12px;font-weight:700;margin-bottom:10px">${L==='ar'?'سيتم حذف:':'Will be deleted:'}</div>
+      ${[
+        {ic:'📦',l:L==='ar'?'المنتجات → استعادة المنتجات الافتراضية':'Products → Reset to defaults',v:prods.length},
+        {ic:'📋',l:L==='ar'?'جميع الطلبات':'All orders',v:orders.length},
+        {ic:'👥',l:L==='ar'?'جميع العملاء والمستخدمين':'All customers & users',v:users.length},
+        {ic:'🎟️',l:L==='ar'?'أكواد الخصم':'Discount codes',v:coupons.length},
+        {ic:'⚙️',l:L==='ar'?'جميع الإعدادات':'All settings',v:''},
+      ].map(x=>`<div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #F5F0EA">
+        <span style="font-size:16px">${x.ic}</span>
+        <span style="flex:1;font-size:11px;color:#8A8580">${x.l}</span>
+        ${x.v!==''?`<span style="padding:2px 8px;border-radius:6px;background:#EF444410;color:#EF4444;font-size:10px;font-weight:700">${x.v}</span>`:''}
+      </div>`).join('')}
+    </div>
+    <button onclick="resetDefaults()" style="width:100%;padding:16px 0;border-radius:16px;background:#EF4444;color:#fff;border:none;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 6px 18px rgba(239,68,68,.25)">⚠️ ${t('resetAll')}</button>
+    <div style="font-size:10px;color:#EF4444;margin-top:10px;font-weight:600">${L==='ar'?'⚠️ هذا الإجراء لا يمكن التراجع عنه':'⚠️ This action cannot be undone'}</div>
+  </div>
+  </div>`}
+
 function rAProds(){
   return`${rANav()}<div style="padding:0 12px 6px"><button class="bp" onclick="editId=null;goA('addp')" style="font-size:12px;padding:10px 0">${t('addP')} +</button></div>${prods.map(p=>`<div class="c" style="margin:0 12px 6px;padding:10px;display:flex;align-items:center;gap:10px"><div style="width:42px;height:42px;border-radius:8px;background:#F5F0EA;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;overflow:hidden">${p.photo?`<img src="${p.photo}" style="width:100%;height:100%;object-fit:cover"/>`:p.img}</div><div style="flex:1;min-width:0"><div style="font-size:11px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${pn(p)}</div><div style="font-size:10px;color:#8A8580">${p.price} ${t('qar')} • ${t('pS')}: ${p.stock}</div></div><div style="display:flex;gap:4px;flex-shrink:0"><button onclick="tgPr(${p.id})" class="tg" style="background:${p.on?'#5B9A6F15':'#EF444415'};color:${p.on?'#5B9A6F':'#EF4444'}">${p.on?'✓':'✗'}</button><button onclick="editPr(${p.id})" style="padding:4px 8px;border-radius:6px;border:1px solid #EDE8E1;background:#fff;font-size:10px;cursor:pointer">✏️</button><button onclick="delPr(${p.id})" style="padding:4px 8px;border-radius:6px;background:#FEF2F2;border:1px solid #FECACA;font-size:10px;cursor:pointer;color:#EF4444">🗑️</button></div></div>`).join('')}`}
 
@@ -806,7 +872,7 @@ function rACoup(){
   </div></div>`}
 
 function rAdmin(){
-  const sub={dash:rADash,fin:rAFin,prods:rAProds,addp:rAAddP,stk:rAStk,cats:rACats,pays:rAPays,dlvr:rADlvr,pay:rAPayS,ig:rAIG,coup:rACoup,custs:rACusts};
+  const sub={dash:rADash,fin:rAFin,ords:rAOrds,prods:rAProds,addp:rAAddP,stk:rAStk,cats:rACats,pays:rAPays,dlvr:rADlvr,pay:rAPayS,ig:rAIG,coup:rACoup,custs:rACusts,reset:rAReset};
   return`<div style="padding-bottom:16px"><div class="hd"><div><div class="tt">🔐 ${t('adm')}</div><div style="font-size:10px;color:#8A8580">👤 ${ADM_U}</div></div><div style="display:flex;gap:6px;align-items:center">${rLT()}<button onclick="admOut()" style="padding:4px 10px;border-radius:12px;border:1px solid #EF444430;background:#FEF2F2;font-size:10px;font-weight:600;cursor:pointer;color:#EF4444">${t('admO')}</button></div></div>${(sub[ap]||rADash)()}</div>`}
 
 function R(){
