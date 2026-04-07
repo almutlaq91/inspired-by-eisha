@@ -84,14 +84,14 @@ input,button,select,textarea{font-family:inherit;transition:all .2s ease-in-out}
 const ADM_U='eisha', ADM_P='eisha2024';
 
 const DF_PRODS=[
-  {id:1,ar:'أسوارة ذهبية',en:'Gold Cuff Bracelet',dar:'أسوارة أنيقة بتصميم عصري',den:'Elegant modern design bracelet',price:185,cost:90,cat:'acc',img:'🪙',r:4.8,rv:42,stock:15,on:true},
-  {id:2,ar:'حقيبة كتان',en:'Linen Tote Bag',dar:'حقيبة يومية من الكتان الطبيعي',den:'Natural linen daily tote',price:120,cost:55,cat:'bag',img:'👜',r:4.9,rv:67,stock:23,on:true},
-  {id:3,ar:'طقم شموع',en:'Ceramic Candle Set',dar:'طقم شموع سيراميك برائحة مميزة',den:'Scented ceramic candle set',price:95,cost:40,cat:'hom',img:'🕯️',r:4.7,rv:31,stock:40,on:true},
-  {id:4,ar:'وشاح حرير',en:'Silk Scarf',dar:'وشاح حرير ناعم بألوان هادئة',den:'Soft silk scarf in calm tones',price:220,cost:110,cat:'fas',img:'🧣',r:5.0,rv:18,stock:8,on:true},
-  {id:5,ar:'طقم أكواب عقيق',en:'Agate Coaster Set',dar:'أكواب من حجر العقيق الطبيعي',den:'Natural agate stone coasters',price:150,cost:65,cat:'hom',img:'💎',r:4.6,rv:55,stock:12,on:true},
-  {id:6,ar:'مرآة خيزران',en:'Rattan Mirror',dar:'مرآة دائرية بإطار خيزران',den:'Round mirror with rattan frame',price:310,cost:160,cat:'hom',img:'🪞',r:4.9,rv:23,stock:5,on:true},
-  {id:7,ar:'حلق لؤلؤ',en:'Pearl Drop Earrings',dar:'حلق متدلي بلؤلؤ طبيعي',den:'Natural pearl drop earrings',price:165,cost:70,cat:'acc',img:'✨',r:4.8,rv:39,stock:30,on:true},
-  {id:8,ar:'بطانية قطن',en:'Cotton Throw',dar:'بطانية قطن ناعمة للمنزل',den:'Soft cotton home throw blanket',price:275,cost:130,cat:'hom',img:'🛋️',r:4.7,rv:44,stock:18,on:true},
+  {id:1,ar:'أسوارة ذهبية',en:'Gold Cuff Bracelet',dar:'أسوارة أنيقة بتصميم عصري',den:'Elegant modern design bracelet',price:185,cost:90,cat:'acc',img:'🪙',r:4.8,rv:42,stock:15,on:true,colors:['#D4AF37','#C0C0C0','#B76E79'],showColors:true,sizes:[],showSizes:false,showGift:true},
+  {id:2,ar:'حقيبة كتان',en:'Linen Tote Bag',dar:'حقيبة يومية من الكتان الطبيعي',den:'Natural linen daily tote',price:120,cost:55,cat:'bag',img:'👜',r:4.9,rv:67,stock:23,on:true,colors:['#F5F0EA','#2D2A26','#C8956C'],showColors:true,sizes:[],showSizes:false,showGift:true},
+  {id:3,ar:'طقم شموع',en:'Ceramic Candle Set',dar:'طقم شموع سيراميك برائحة مميزة',den:'Scented ceramic candle set',price:95,cost:40,cat:'hom',img:'🕯️',r:4.7,rv:31,stock:40,on:true,colors:[],showColors:false,sizes:[],showSizes:false,showGift:true},
+  {id:4,ar:'وشاح حرير',en:'Silk Scarf',dar:'وشاح حرير ناعم بألوان هادئة',den:'Soft silk scarf in calm tones',price:220,cost:110,cat:'fas',img:'🧣',r:5.0,rv:18,stock:8,on:true,colors:['#F8E8D0','#B5C7D3','#D4A5A5','#2D2A26'],showColors:true,sizes:['S','M','L'],showSizes:true,showGift:true},
+  {id:5,ar:'طقم أكواب عقيق',en:'Agate Coaster Set',dar:'أكواب من حجر العقيق الطبيعي',den:'Natural agate stone coasters',price:150,cost:65,cat:'hom',img:'💎',r:4.6,rv:55,stock:12,on:true,colors:[],showColors:false,sizes:[],showSizes:false,showGift:true},
+  {id:6,ar:'مرآة خيزران',en:'Rattan Mirror',dar:'مرآة دائرية بإطار خيزران',den:'Round mirror with rattan frame',price:310,cost:160,cat:'hom',img:'🪞',r:4.9,rv:23,stock:5,on:true,colors:[],showColors:false,sizes:['S','M','L'],showSizes:true,showGift:false},
+  {id:7,ar:'حلق لؤلؤ',en:'Pearl Drop Earrings',dar:'حلق متدلي بلؤلؤ طبيعي',den:'Natural pearl drop earrings',price:165,cost:70,cat:'acc',img:'✨',r:4.8,rv:39,stock:30,on:true,colors:['#FFFFFF','#D4AF37'],showColors:true,sizes:[],showSizes:false,showGift:true},
+  {id:8,ar:'بطانية قطن',en:'Cotton Throw',dar:'بطانية قطن ناعمة للمنزل',den:'Soft cotton home throw blanket',price:275,cost:130,cat:'hom',img:'🛋️',r:4.7,rv:44,stock:18,on:true,colors:['#F5F0EA','#D6CFC7','#8A8580'],showColors:true,sizes:['Single','Double'],showSizes:true,showGift:true},
 ];
 const DF_CATS=[{k:'all',ar:'الكل',en:'All',on:true},{k:'acc',ar:'اكسسوارات',en:'Accessories',on:true},{k:'fas',ar:'أزياء',en:'Fashion',on:true},{k:'bag',ar:'حقائب',en:'Bags',on:true},{k:'hom',ar:'منزل',en:'Home',on:true}];
 const DF_PAYS=[{nm:'KNET',ic:'🏦',on:true},{nm:'Visa/MC',ic:'💳',on:true},{nm:'Apple Pay',ic:'🍎',on:true},{nm:'STC Pay',ic:'📲',on:true}];
@@ -134,6 +134,7 @@ let viewCust=null,custFilter='all',custQ='';
 let frPeriod='daily';
 let banners=LS('banners')||[];
 let slideIdx=0,slideTimer=null;
+let detailProd=null,selColor='',selSize='',giftMsg='',isGift=false;
 
 const sv=k=>SS(k,({prods,cats,pays,zones,dlvr,cart,users,orders,stg})[k]);
 
@@ -180,7 +181,8 @@ frTopProducts:'الأكثر مبيعاً',frTopZones:'المناطق الأكث�
 frSold:'مبيع',frGrowth:'النمو',frCompare:'مقارنة بالفترة السابقة',frPeriodLabel:'الفترة',
 admOrds:'إدارة الطلبات',delOrd:'حذف',delAllOrd:'حذف جميع الطلبات',delAllConfirm:'هل تريد حذف جميع الطلبات؟ لا يمكن التراجع!',resetAll:'استعادة الافتراضي',resetConfirm:'هل تريد استعادة جميع البيانات للوضع الافتراضي؟ سيتم حذف كل شيء!',resetDone:'تم استعادة الافتراضي!',noOrders:'لا توجد طلبات',ordDeleted:'تم حذف الطلب',allDeleted:'تم حذف جميع الطلبات',changeStatus:'تغيير الحالة',
 pCost:'سعر التكلفة',pSell:'سعر البيع',pProfit:'الربح',pMargin:'هامش الربح',profitPerItem:'ربح القطعة',totalCost:'إجمالي التكلفة',totalProfit:'إجمالي الربح',grossProfit:'الربح الإجمالي',netProfit:'صافي الربح',profitMargin:'نسبة الربح',investValue:'قيمة المخزون (تكلفة)',expectedRev:'الإيرادات المتوقعة',expectedProfit:'الربح المتوقع',costAnalysis:'تحليل التكاليف',profitByProduct:'الربح حسب المنتج',noCost:'لم تُحدد التكلفة',
-bnrT:'البنرات',bnrAdd:'إضافة بنر',bnrPromo:'بنر إعلاني',bnrTitleAr:'العنوان بالعربي',bnrTitleEn:'العنوان بالانجليزي',bnrDescAr:'الوصف بالعربي',bnrDescEn:'الوصف بالانجليزي',bnrBg1:'اللون 1',bnrBg2:'اللون 2',bnrBtn:'نص الزر',bnrLink:'الرابط (اختياري)',bnrNoBnr:'لا توجد بنرات',bnrAutoNew:'منتجات جديدة (تلقائي)',bnrAutoOffer:'عروض الخصم (تلقائي)',bnrCustom:'مخصص',bnrEmoji:'الأيقونة',
+bnrT:'البنرات',bnrAdd:'إضافة بنر',bnrPromo:'بنر إعلاني',bnrTitleAr:'العنوان بالعربي',bnrTitleEn:'العنوان بالانجليزي',bnrDescAr:'الوصف بالعربي',bnrDescEn:'الوصف بالانجليزي',bnrBg1:'اللون 1',bnrBg2:'اللون 2',bnrBtn:'نص الزر',bnrLink:'الرابط (اختياري)',bnrNoBnr:'لا توجد بنرات',bnrAutoNew:'منتجات جديدة (تلقائي)',bnrAutoOffer:'عروض الخصم (تلقائي)',bnrCustom:'مخصص',bnrEmoji:'الأيقونة',bnrImg:'صورة البنر (رابط)',bnrImgUpload:'أو ارفع صورة',
+optColor:'اللون',optSize:'المقاس',optGift:'بطاقة إهداء',optGiftMsg:'رسالة الإهداء',optGiftHint:'اكتب رسالتك هنا...',optColors:'الألوان المتاحة',optSizes:'المقاسات',optAddColor:'إضافة لون',optShowColors:'إظهار الألوان',optShowSizes:'إظهار المقاسات',optShowGift:'بطاقة الإهداء',optSizesHint:'S, M, L, XL',optAddToCart:'أضف للسلة',optSelectColor:'اختر اللون',optSelectSize:'اختر المقاس',optHide:'إخفاء',optShow:'إظهار',
 },en:{
 shop:'Shop',cartT:'Cart',ordersT:'Orders',acc:'Account',
 na:'New Arrivals',cur:'Curated for you',sn:'Shop Now',fig:'Follow on Instagram',
@@ -223,7 +225,8 @@ frTopProducts:'Top Products',frTopZones:'Top Zones',frNoData:'No data for this p
 frSold:'sold',frGrowth:'Growth',frCompare:'vs previous period',frPeriodLabel:'Period',
 admOrds:'Manage Orders',delOrd:'Delete',delAllOrd:'Delete All Orders',delAllConfirm:'Delete all orders? This cannot be undone!',resetAll:'Reset to Default',resetConfirm:'Reset all data to default? Everything will be deleted!',resetDone:'Reset complete!',noOrders:'No orders',ordDeleted:'Order deleted',allDeleted:'All orders deleted',changeStatus:'Change Status',
 pCost:'Cost Price',pSell:'Sell Price',pProfit:'Profit',pMargin:'Margin',profitPerItem:'Profit/Item',totalCost:'Total Cost',totalProfit:'Total Profit',grossProfit:'Gross Profit',netProfit:'Net Profit',profitMargin:'Profit %',investValue:'Inventory Value (Cost)',expectedRev:'Expected Revenue',expectedProfit:'Expected Profit',costAnalysis:'Cost Analysis',profitByProduct:'Profit by Product',noCost:'No cost set',
-bnrT:'Banners',bnrAdd:'Add Banner',bnrPromo:'Promo Banner',bnrTitleAr:'Title (Arabic)',bnrTitleEn:'Title (English)',bnrDescAr:'Desc (Arabic)',bnrDescEn:'Desc (English)',bnrBg1:'Color 1',bnrBg2:'Color 2',bnrBtn:'Button Text',bnrLink:'Link (optional)',bnrNoBnr:'No banners',bnrAutoNew:'New Products (Auto)',bnrAutoOffer:'Discount Offers (Auto)',bnrCustom:'Custom',bnrEmoji:'Icon',
+bnrT:'Banners',bnrAdd:'Add Banner',bnrPromo:'Promo Banner',bnrTitleAr:'Title (Arabic)',bnrTitleEn:'Title (English)',bnrDescAr:'Desc (Arabic)',bnrDescEn:'Desc (English)',bnrBg1:'Color 1',bnrBg2:'Color 2',bnrBtn:'Button Text',bnrLink:'Link (optional)',bnrNoBnr:'No banners',bnrAutoNew:'New Products (Auto)',bnrAutoOffer:'Discount Offers (Auto)',bnrCustom:'Custom',bnrEmoji:'Icon',bnrImg:'Banner Image (URL)',bnrImgUpload:'or Upload Image',
+optColor:'Color',optSize:'Size',optGift:'Gift Card',optGiftMsg:'Gift Message',optGiftHint:'Write your message here...',optColors:'Available Colors',optSizes:'Sizes',optAddColor:'Add Color',optShowColors:'Show Colors',optShowSizes:'Show Sizes',optShowGift:'Gift Card',optSizesHint:'S, M, L, XL',optAddToCart:'Add to Cart',optSelectColor:'Select Color',optSelectSize:'Select Size',optHide:'Hide',optShow:'Show',
 }};
 const t=k=>(T[L]||T.ar)[k]||k;
 const pn=p=>L==='ar'?p.ar:p.en;
@@ -241,7 +244,23 @@ function nav(p){pg=p;co=false;gm=false;R()}
 function goA(s){ap=s;R()}
 function setC(c){cat=c;R()}
 function tgL(){L=L==='ar'?'en':'ar';SS('lang',L);document.body.dir=L==='ar'?'rtl':'ltr';R()}
-function addToCart(id){const p=prods.find(x=>x.id===id);if(!p||p.stock<1||!p.on)return;cart.push({...p});SS('cart',cart);R();const b=document.getElementById('ab-'+id);if(b){b.classList.add('ok');b.textContent='✓';setTimeout(()=>{b&&(b.classList.remove('ok'),b.textContent='+')},1e3)}}
+function addToCart(id){
+  const p=prods.find(x=>x.id===id);if(!p||p.stock<1||!p.on)return;
+  const hasOpts=(p.showColors&&p.colors?.length)||(p.showSizes&&p.sizes?.length)||p.showGift;
+  if(hasOpts){openDetail(id);return}
+  cart.push({...p,selColor:'',selSize:'',giftMsg:''});SS('cart',cart);R();
+  const b=document.getElementById('ab-'+id);if(b){b.classList.add('ok');b.textContent='✓';setTimeout(()=>{b&&(b.classList.remove('ok'),b.textContent='+')},1e3)}
+}
+function openDetail(id){const p=prods.find(x=>x.id===id);if(!p)return;detailProd=p;selColor=p.colors?.length?p.colors[0]:'';selSize=p.sizes?.length?p.sizes[0]:'';giftMsg='';isGift=false;R()}
+function closeDetail(){detailProd=null;R()}
+function pickColor(c){selColor=c;R()}
+function pickSize(s){selSize=s;R()}
+function confirmAdd(){
+  if(!detailProd)return;
+  if(detailProd.showColors&&detailProd.colors?.length&&!selColor){alert(t('optSelectColor'));return}
+  if(detailProd.showSizes&&detailProd.sizes?.length&&!selSize){alert(t('optSelectSize'));return}
+  cart.push({...detailProd,selColor,selSize,giftMsg:isGift?giftMsg:''});SS('cart',cart);detailProd=null;R();
+}
 function rmCart(i){cart.splice(i,1);SS('cart',cart);R()}
 
 function calcShip(){
@@ -288,7 +307,7 @@ async function doPay(){
     const data=await res.json();
     if(data.success&&data.paymentUrl){
       cart.forEach(ci=>{const p=prods.find(x=>x.id===ci.id);if(p&&p.stock>0)p.stock--});SS('prods',prods);
-      const ord={id:data.invoiceId||ordId,items:cart.map(c=>({id:c.id,nm:pn(c),pr:c.price,cost:c.cost||0})),total,ship,disc,coupon:appliedCoupon?appliedCoupon.code:'',zone:selZone,dlvrType:selType,status:'prc',date:new Date().toLocaleDateString('en',{month:'short',day:'numeric'}),ts:Date.now(),cust:cName,phone:cu?cu.phone:(gi?gi.phone:''),notes:oNotes};
+      const ord={id:data.invoiceId||ordId,items:cart.map(c=>({id:c.id,nm:pn(c),pr:c.price,cost:c.cost||0,color:c.selColor||'',size:c.selSize||'',gift:c.giftMsg||''})),total,ship,disc,coupon:appliedCoupon?appliedCoupon.code:'',zone:selZone,dlvrType:selType,status:'prc',date:new Date().toLocaleDateString('en',{month:'short',day:'numeric'}),ts:Date.now(),cust:cName,phone:cu?cu.phone:(gi?gi.phone:''),notes:oNotes};
       orders.push(ord);SS('orders',orders);
       cart=[];SS('cart',cart);appliedCoupon=null;
       window.location.href=data.paymentUrl;
@@ -326,11 +345,18 @@ function saveProd(){
   const cost=parseFloat(document.getElementById('p-cost')?.value)||0;
   const ct=document.getElementById('p-ct')?.value||'acc',sk=parseInt(document.getElementById('p-sk')?.value)||0;
   const img=document.getElementById('p-img-d')?.value||'📦';
+  const szTxt=document.getElementById('p-sizes')?.value?.trim()||'';
+  const sizes=szTxt?szTxt.split(',').map(s=>s.trim()).filter(Boolean):[];
+  const showColors=document.getElementById('p-showColors')?.checked||false;
+  const showSizes=document.getElementById('p-showSizes')?.checked||false;
+  const showGift=document.getElementById('p-showGift')?.checked||false;
   if(!ar||!en||!pr){alert(t('reqF'));return}
-  if(editId){const p=prods.find(x=>x.id===editId);if(p){p.ar=ar;p.en=en;p.dar=dar;p.den=den;p.price=pr;p.cost=cost;p.cat=ct;p.stock=sk;if(img!=='keep')p.img=img;p.photo=img.startsWith('data:')?img:null}}
-  else{prods.push({id:Date.now(),ar,en,dar,den,price:pr,cost,cat:ct,img:img.startsWith('data:')?'📦':img,photo:img.startsWith('data:')?img:null,r:0,rv:0,stock:sk,on:true})}
+  if(editId){const p=prods.find(x=>x.id===editId);if(p){p.ar=ar;p.en=en;p.dar=dar;p.den=den;p.price=pr;p.cost=cost;p.cat=ct;p.stock=sk;p.sizes=sizes;p.showColors=showColors;p.showSizes=showSizes;p.showGift=showGift;if(img!=='keep')p.img=img;p.photo=img.startsWith('data:')?img:null}}
+  else{prods.push({id:Date.now(),ar,en,dar,den,price:pr,cost,cat:ct,img:img.startsWith('data:')?'📦':img,photo:img.startsWith('data:')?img:null,r:0,rv:0,stock:sk,on:true,colors:[],sizes,showColors,showSizes,showGift})}
   SS('prods',prods);editId=null;ap='prods';R();
 }
+function addProdColor(id){const c=document.getElementById('pc-'+id)?.value||'#000000';const p=prods.find(x=>x.id===id);if(p){if(!p.colors)p.colors=[];if(!p.colors.includes(c)){p.colors.push(c);SS('prods',prods);R()}}}
+function rmProdColor(id,ci){const p=prods.find(x=>x.id===id);if(p&&p.colors){p.colors.splice(ci,1);SS('prods',prods);R()}}
 function editPr(id){editId=id;ap='addp';R()}
 function delPr(id){if(!confirm(L==='ar'?'حذف؟':'Delete?'))return;prods=prods.filter(x=>x.id!==id);SS('prods',prods);R()}
 function tgPr(id){const p=prods.find(x=>x.id===id);if(p){p.on=!p.on;SS('prods',prods);R()}}
@@ -373,17 +399,18 @@ function addBanner(){
   const emoji=document.getElementById('bn-emoji')?.value?.trim()||'🎁';
   const btn=document.getElementById('bn-btn')?.value?.trim()||'';
   const link=document.getElementById('bn-link')?.value?.trim()||'';
-  if(!tAr&&!tEn){alert(t('reqF'));return}
-  banners.push({id:Date.now(),tAr,tEn,dAr,dEn,bg1,bg2,emoji,btn,link,on:true});
+  const imgUrl=document.getElementById('bn-img-d')?.value?.trim()||'';
+  if(!tAr&&!tEn&&!imgUrl){alert(t('reqF'));return}
+  banners.push({id:Date.now(),tAr,tEn,dAr,dEn,bg1,bg2,emoji,btn,link,imgUrl,on:true});
   SS('banners',banners);alert(t('added'));R();
 }
+function handleBnrImg(inp){const f=inp.files[0];if(!f)return;const r=new FileReader();r.onload=e=>{document.getElementById('bn-img-d').value=e.target.result;document.getElementById('bn-img-pv').innerHTML=`<img src="${e.target.result}" style="width:100%;height:100%;object-fit:cover;border-radius:8px"/>`};r.readAsDataURL(f)}
 function delBanner(i){if(!confirm(L==='ar'?'حذف؟':'Delete?'))return;banners.splice(i,1);SS('banners',banners);R()}
 function tgBanner(i){banners[i].on=!banners[i].on;SS('banners',banners);R()}
 function getSlides(){
   const slides=[];
-  // 1. Custom banners
   banners.filter(b=>b.on).forEach(b=>{
-    slides.push({type:'promo',tAr:b.tAr,tEn:b.tEn,dAr:b.dAr,dEn:b.dEn,bg:`linear-gradient(135deg,${b.bg1},${b.bg2})`,emoji:b.emoji,btn:b.btn,link:b.link});
+    slides.push({type:b.imgUrl?'image':'promo',tAr:b.tAr,tEn:b.tEn,dAr:b.dAr,dEn:b.dEn,bg:b.imgUrl?'':'linear-gradient(135deg,'+b.bg1+','+b.bg2+')',emoji:b.emoji,btn:b.btn,link:b.link,imgUrl:b.imgUrl||''});
   });
   // 2. New products (last 3 added with stock)
   const newP=prods.filter(p=>p.on&&p.stock>0).slice(-3).reverse();
@@ -490,10 +517,14 @@ function rSlider(){
     if(s.type==='new'){
       const names=s.products.map(p=>pn(p)).join(' • ');
       html+=`<div class="slide" style="background:${s.bg}"><div style="position:absolute;top:-30px;${d}:-30px;width:120px;height:120px;border-radius:50%;background:rgba(200,149,108,.12)"></div><div style="display:flex;gap:8px;margin-bottom:8px;position:relative">${s.products.map(p=>`<div style="width:44px;height:44px;border-radius:12px;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;overflow:hidden">${p.photo?`<img src="${p.photo}" style="width:100%;height:100%;object-fit:cover"/>`:p.img}</div>`).join('')}</div><div style="font-family:'Playfair Display',serif;font-size:18px;color:#FAF7F2;font-weight:600;position:relative">${t('na')}</div><div style="font-size:11px;color:rgba(250,247,242,.5);margin-top:2px;position:relative;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">${names}</div></div>`;
+    }else if(s.type==='image'){
+      const wr=s.link?`<a href="${s.link}" target="_blank" rel="noopener" style="text-decoration:none;color:#fff">`:'';
+      const wrC=s.link?'</a>':'';
+      html+=`<div class="slide" style="padding:0;background:#000">${wr}<img src="${s.imgUrl}" style="width:100%;height:100%;object-fit:cover;display:block"/>${(s.tAr||s.tEn)?`<div style="position:absolute;bottom:0;left:0;right:0;padding:14px 18px;background:linear-gradient(transparent,rgba(0,0,0,.7))"><div style="font-family:'Playfair Display',serif;font-size:16px;color:#fff;font-weight:600">${L==='ar'?s.tAr||s.tEn:s.tEn||s.tAr}</div>${(s.dAr||s.dEn)?`<div style="font-size:10px;color:rgba(255,255,255,.7);margin-top:2px">${L==='ar'?s.dAr||s.dEn:s.dEn||s.dAr}</div>`:''}</div>`:''} ${wrC}</div>`;
+    }else if(s.type==='promo'){
+      html+=`<div class="slide" style="background:${s.bg}"><div style="position:absolute;top:-30px;${d}:-30px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.08)"></div><div style="display:flex;align-items:center;gap:14px;position:relative"><div style="font-size:40px;flex-shrink:0">${s.emoji||'🎁'}</div><div><div style="font-family:'Playfair Display',serif;font-size:18px;color:#FAF7F2;font-weight:600">${L==='ar'?s.tAr||s.tEn:s.tEn||s.tAr}</div><div style="font-size:11px;color:rgba(250,247,242,.5);margin-top:3px">${L==='ar'?s.dAr||s.dEn:s.dEn||s.dAr}</div>${s.btn?`<${s.link?`a href="${s.link}" target="_blank" rel="noopener"`:'button'} style="margin-top:8px;display:inline-flex;background:#C8956C;color:#fff;padding:6px 16px;border-radius:16px;font-size:11px;font-weight:600;border:none;cursor:pointer;text-decoration:none">${L==='ar'?s.btn:s.btn}</${s.link?'a':'button'}>`:''}</div></div></div>`;
     }else if(s.type==='offer'){
       html+=`<div class="slide" style="background:${s.bg}"><div style="position:absolute;top:-20px;${d}:-20px;width:100px;height:100px;border-radius:50%;background:rgba(255,255,255,.05)"></div><div style="display:flex;align-items:center;gap:12px;position:relative"><div style="width:56px;height:56px;border-radius:16px;background:rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-size:28px">🎟️</div><div><div style="font-size:10px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:1px;font-weight:600">${L==='ar'?'كود خصم':'Discount Code'}</div><div style="font-size:24px;font-weight:800;color:#fff;font-family:monospace;letter-spacing:2px;margin-top:2px">${s.code}</div><div style="margin-top:4px"><span style="display:inline-flex;padding:3px 12px;border-radius:10px;background:rgba(255,255,255,.15);color:#8FD4A0;font-size:12px;font-weight:700">${s.pct}% ${L==='ar'?'خصم':'OFF'}</span></div></div></div></div>`;
-    }else{
-      html+=`<div class="slide" style="background:${s.bg}"><div style="position:absolute;top:-30px;${d}:-30px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.08)"></div><div style="display:flex;align-items:center;gap:14px;position:relative"><div style="font-size:40px;flex-shrink:0">${s.emoji||'🎁'}</div><div><div style="font-family:'Playfair Display',serif;font-size:18px;color:#FAF7F2;font-weight:600">${L==='ar'?s.tAr||s.tEn:s.tEn||s.tAr}</div><div style="font-size:11px;color:rgba(250,247,242,.5);margin-top:3px">${L==='ar'?s.dAr||s.dEn:s.dEn||s.dAr}</div>${s.btn?`<${s.link?`a href="${s.link}" target="_blank" rel="noopener"`:'button'} style="margin-top:8px;display:inline-flex;background:#C8956C;color:#fff;padding:6px 16px;border-radius:16px;font-size:11px;font-weight:600;border:none;cursor:pointer;text-decoration:none">${L==='ar'?s.btn:s.btn}</${s.link?'a':'button'}>`:''}</div></div></div>`;
     }
   });
   html+=`</div><div class="slider-dots">${slides.map((_,i)=>`<div class="sdot ${i===slideIdx?'on':''}" onclick="goSlide(${i});startSlider()"></div>`).join('')}</div></div>`;
@@ -510,7 +541,7 @@ function rShop(){
   ${rSlider()}
   <a href="${igL}" target="_blank" rel="noopener" style="margin:0 12px 12px;padding:10px 14px;border-radius:12px;background:linear-gradient(135deg,#833AB4,#E1306C,#F77737);display:flex;align-items:center;gap:10px;text-decoration:none"><span style="font-size:20px">📷</span><div><div style="font-size:12px;font-weight:700;color:#fff">${igN}</div><div style="font-size:9px;color:rgba(255,255,255,.8)">${t('fig')}</div></div></a>
   <div style="display:flex;gap:6px;padding:0 12px 12px;overflow-x:auto">${cats.filter(c=>c.on).map(c=>`<button onclick="setC('${c.k}')" style="padding:6px 14px;border-radius:18px;border:none;cursor:pointer;font-size:11px;font-weight:600;white-space:nowrap;background:${cat===c.k?'#2D2A26':'transparent'};color:${cat===c.k?'#fff':'#8A8580'};font-family:inherit">${cn(c)}</button>`).join('')}</div>
-  <div class="grid">${fl.map((p,i)=>`<div class="c fu" style="overflow:hidden;animation-delay:${i*50}ms"><div style="height:130px;background:linear-gradient(135deg,#F5F0EA,#EDE8E1);display:flex;align-items:center;justify-content:center;font-size:44px;position:relative;overflow:hidden">${p.photo?`<img src="${p.photo}" style="width:100%;height:100%;object-fit:cover"/>`:p.img}<span style="position:absolute;top:8px;${d}:8px;padding:2px 7px;border-radius:5px;background:rgba(255,255,255,.85);font-size:8px;font-weight:600;color:#8A8580">${cn(cats.find(c=>c.k===p.cat)||cats[0])}</span></div><div style="padding:8px 10px 12px"><div style="font-size:12px;font-weight:600;line-height:1.3">${pn(p)}</div>${pd(p)?`<div style="font-size:10px;color:#8A8580;margin-top:2px;line-height:1.4">${pd(p)}</div>`:''}<div style="display:flex;align-items:center;gap:3px;margin-top:4px"><span style="font-size:10px;color:#E8A838">★</span><span style="font-size:10px;color:#8A8580">${p.r} (${p.rv})</span></div><div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px"><span style="font-size:15px;font-weight:700">${p.price} <span style="font-size:9px;font-weight:500;color:#8A8580">${t('qar')}</span></span><button id="ab-${p.id}" class="ab" onclick="event.stopPropagation();addToCart(${p.id})">+</button></div></div></div>`).join('')}</div></div>`}
+  <div class="grid">${fl.map((p,i)=>{const hasOpts=(p.showColors&&p.colors?.length)||(p.showSizes&&p.sizes?.length)||p.showGift;return`<div class="c fu" style="overflow:hidden;animation-delay:${i*50}ms;cursor:pointer" onclick="openDetail(${p.id})"><div style="height:130px;background:linear-gradient(135deg,#F5F0EA,#EDE8E1);display:flex;align-items:center;justify-content:center;font-size:44px;position:relative;overflow:hidden">${p.photo?`<img src="${p.photo}" style="width:100%;height:100%;object-fit:cover"/>`:p.img}<span style="position:absolute;top:8px;${d}:8px;padding:2px 7px;border-radius:5px;background:rgba(255,255,255,.85);font-size:8px;font-weight:600;color:#8A8580">${cn(cats.find(c=>c.k===p.cat)||cats[0])}</span></div><div style="padding:8px 10px 12px"><div style="font-size:12px;font-weight:600;line-height:1.3">${pn(p)}</div>${pd(p)?`<div style="font-size:10px;color:#8A8580;margin-top:2px;line-height:1.4">${pd(p)}</div>`:''}${p.showColors&&p.colors?.length?`<div style="display:flex;gap:3px;margin-top:4px">${p.colors.slice(0,5).map(c=>`<div style="width:12px;height:12px;border-radius:6px;background:${c};border:1px solid rgba(0,0,0,.1)"></div>`).join('')}${p.colors.length>5?`<span style="font-size:8px;color:#8A8580">+${p.colors.length-5}</span>`:''}</div>`:`<div style="display:flex;align-items:center;gap:3px;margin-top:4px"><span style="font-size:10px;color:#E8A838">★</span><span style="font-size:10px;color:#8A8580">${p.r} (${p.rv})</span></div>`}<div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px"><span style="font-size:15px;font-weight:700">${p.price} <span style="font-size:9px;font-weight:500;color:#8A8580">${t('qar')}</span></span><button id="ab-${p.id}" class="ab" onclick="event.stopPropagation();addToCart(${p.id})">+</button></div></div></div>`}).join('')}</div></div>`}
 
 function rCart(){
   const sub=cart.reduce((a,c)=>a+c.price,0);
@@ -558,7 +589,7 @@ function rCart(){
     </div></div>`}
   if(!cart.length)return`<div class="pg"><div class="hd"><div class="tt">${t('yc')}</div>${rLT()}</div><div class="fu" style="text-align:center;padding:50px 18px;color:#8A8580"><div style="font-size:44px;margin-bottom:10px">🛒</div><div style="font-size:14px;font-weight:500">${t('emp')}</div><button class="bd" onclick="nav('home')" style="width:auto;padding:10px 24px;margin-top:16px;border-radius:20px;font-size:12px">${t('ss')}</button></div></div>`;
   let html=`<div class="pg"><div class="hd"><div><div class="tt">${t('yc')}</div><div style="font-size:11px;color:#8A8580;margin-top:1px">${cart.length} ${t('items')}</div></div>${rLT()}</div>`;
-  cart.forEach((x,i)=>{html+=`<div class="c fu" style="margin:0 12px 6px;padding:12px;display:flex;align-items:center;gap:12px;animation-delay:${i*40}ms"><div style="width:50px;height:50px;border-radius:10px;background:linear-gradient(135deg,#F5F0EA,#EDE8E1);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;overflow:hidden">${x.photo?`<img src="${x.photo}" style="width:100%;height:100%;object-fit:cover"/>`:x.img}</div><div style="flex:1"><div style="font-size:12px;font-weight:600">${pn(x)}</div><div style="font-size:13px;font-weight:700;color:#C8956C;margin-top:3px">${x.price} ${t('qar')}</div></div><button onclick="rmCart(${i})" style="width:28px;height:28px;border-radius:14px;background:#FEF2F2;border:none;font-size:12px;color:#EF4444;cursor:pointer;display:flex;align-items:center;justify-content:center">×</button></div>`});
+  cart.forEach((x,i)=>{const opts=[];if(x.selColor)opts.push(`<span style="display:inline-flex;align-items:center;gap:3px"><span style="width:10px;height:10px;border-radius:5px;background:${x.selColor};border:1px solid #EDE8E1"></span></span>`);if(x.selSize)opts.push(`<span>📏 ${x.selSize}</span>`);if(x.giftMsg)opts.push(`<span>🎁</span>`);html+=`<div class="c fu" style="margin:0 12px 6px;padding:12px;display:flex;align-items:center;gap:12px;animation-delay:${i*40}ms"><div style="width:50px;height:50px;border-radius:10px;background:linear-gradient(135deg,#F5F0EA,#EDE8E1);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;overflow:hidden">${x.photo?`<img src="${x.photo}" style="width:100%;height:100%;object-fit:cover"/>`:x.img}</div><div style="flex:1"><div style="font-size:12px;font-weight:600">${pn(x)}</div>${opts.length?`<div style="display:flex;gap:6px;margin-top:2px;font-size:10px;color:#8A8580">${opts.join('')}</div>`:''}<div style="font-size:13px;font-weight:700;color:#C8956C;margin-top:3px">${x.price} ${t('qar')}</div></div><button onclick="rmCart(${i})" style="width:28px;height:28px;border-radius:14px;background:#FEF2F2;border:none;font-size:12px;color:#EF4444;cursor:pointer;display:flex;align-items:center;justify-content:center">×</button></div>`});
   html+=`<div class="c" style="margin:10px 12px;padding:14px"><div style="font-size:12px;font-weight:700;margin-bottom:8px">📍 ${t('zone')}</div><select class="i" onchange="selZone=this.value;R()" style="font-size:13px"><option value="" ${!selZone?'selected':''}>${t('selZone')}</option>${zones.map(z=>`<option value="${z.name}" ${selZone===z.name?'selected':''}>${zn(z)}</option>`).join('')}</select>`;
   html+=`<div style="font-size:12px;font-weight:700;margin:12px 0 8px">🚚 ${t('ship')}</div></div>`;
   html+=`<div class="c" style="margin:10px 12px;padding:14px"><div style="font-size:12px;font-weight:700;margin-bottom:8px">🎟️ ${t('coupCode')}</div>${appliedCoupon?`<div style="display:flex;align-items:center;gap:8px;padding:10px;border-radius:10px;background:#5B9A6F12;border:1px solid #5B9A6F30"><span style="font-size:12px;font-weight:700;color:#5B9A6F;flex:1">✅ ${appliedCoupon.code} (-${appliedCoupon.pct}%)</span><button onclick="removeCoupon()" style="padding:4px 10px;border-radius:8px;background:#FEF2F2;border:1px solid #FECACA;font-size:10px;font-weight:600;color:#EF4444;cursor:pointer">${t('removeCoup')}</button></div>`:`<div style="display:flex;gap:6px"><input class="i" id="cart-coup" placeholder="${t('coupPlace')}" dir="ltr" style="flex:1;padding:10px 12px;font-size:12px;text-transform:uppercase"/><button onclick="applyCouponCode()" style="padding:8px 16px;border-radius:12px;background:#C8956C;color:#fff;border:none;font-size:12px;font-weight:600;cursor:pointer">${t('applyCoup')}</button></div>`}</div>`;
@@ -831,7 +862,7 @@ function rABnr(){
   <!-- Custom banners list -->
   ${banners.length?banners.map((b,i)=>`<div class="c" style="margin-bottom:6px;padding:12px">
     <div style="display:flex;align-items:center;gap:10px">
-      <div style="width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,${b.bg1},${b.bg2});display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">${b.emoji||'🎁'}</div>
+      <div style="width:44px;height:44px;border-radius:12px;background:${b.imgUrl?'#000':`linear-gradient(135deg,${b.bg1},${b.bg2})`};display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;overflow:hidden">${b.imgUrl?`<img src="${b.imgUrl}" style="width:100%;height:100%;object-fit:cover"/>`:b.emoji||'🎁'}</div>
       <div style="flex:1;min-width:0">
         <div style="font-size:12px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${L==='ar'?b.tAr||b.tEn:b.tEn||b.tAr}</div>
         <div style="font-size:10px;color:#8A8580;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${L==='ar'?b.dAr||b.dEn:b.dEn||b.dAr}</div>
@@ -855,6 +886,17 @@ function rABnr(){
         <div style="display:flex;align-items:center;gap:4px;flex:1"><span style="font-size:10px;color:#8A8580">${t('bnrBg1')}</span><input id="bn-bg1" type="color" value="#2D2A26" style="width:36px;height:30px;border:none;border-radius:6px;cursor:pointer"/></div>
         <div style="display:flex;align-items:center;gap:4px;flex:1"><span style="font-size:10px;color:#8A8580">${t('bnrBg2')}</span><input id="bn-bg2" type="color" value="#6B5B4E" style="width:36px;height:30px;border:none;border-radius:6px;cursor:pointer"/></div>
         <div id="bn-preview" style="flex:2;height:30px;border-radius:8px;background:linear-gradient(135deg,#2D2A26,#6B5B4E)"></div>
+      </div>
+      <!-- Image banner -->
+      <input type="hidden" id="bn-img-d" value=""/>
+      <div style="padding:10px;border-radius:10px;background:#fff;border:1.5px dashed #EDE8E1">
+        <div style="font-size:11px;font-weight:700;margin-bottom:6px">🖼️ ${t('bnrImg')}</div>
+        <input class="i" id="bn-img-url" placeholder="https://..." dir="ltr" style="padding:8px 10px;font-size:11px;margin-bottom:6px" oninput="document.getElementById('bn-img-d').value=this.value"/>
+        <div style="display:flex;align-items:center;gap:8px">
+          <div id="bn-img-pv" onclick="document.getElementById('bn-img-fl').click()" style="width:60px;height:40px;border-radius:8px;background:#F5F0EA;display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;overflow:hidden;flex-shrink:0;border:1px solid #EDE8E1">📷</div>
+          <input type="file" id="bn-img-fl" accept="image/*" style="display:none" onchange="handleBnrImg(this)"/>
+          <span style="font-size:9px;color:#8A8580">${t('bnrImgUpload')}<br>${L==='ar'?'الصورة تظهر كبنر كامل بدون نص':'Image shows as full banner'}</span>
+        </div>
       </div>
       <button class="bp" onclick="addBanner()" style="font-size:12px;padding:10px 0">${t('bnrAdd')} +</button>
     </div>
@@ -939,6 +981,21 @@ function rAAddP(){
     <div style="display:flex;gap:8px"><input class="i" id="p-pr" type="number" placeholder="${t('pSell')} 💰" value="${p?p.price:''}" dir="ltr" style="flex:1"/><input class="i" id="p-cost" type="number" placeholder="${t('pCost')} 📦" value="${p?p.cost||'':''}" dir="ltr" style="flex:1"/><input class="i" id="p-sk" type="number" placeholder="${t('pS')}" value="${p?p.stock:0}" dir="ltr" style="width:60px"/></div>
     ${p&&p.cost?`<div style="padding:12px;border-radius:12px;background:linear-gradient(135deg,#5B9A6F08,#5B9A6F15);border:1px solid #5B9A6F25"><div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:4px"><span style="color:#8A8580">${t('profitPerItem')}</span><span style="font-weight:700;color:#5B9A6F">${p.price-p.cost} ${t('qar')}</span></div><div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:4px"><span style="color:#8A8580">${t('profitMargin')}</span><span style="font-weight:700;color:#5B9A6F">${Math.round((p.price-p.cost)/p.price*100)}%</span></div><div style="display:flex;justify-content:space-between;font-size:11px"><span style="color:#8A8580">${t('expectedProfit')} (${p.stock} ${t('pS')})</span><span style="font-weight:700;color:#5B9A6F">${(p.price-p.cost)*p.stock} ${t('qar')}</span></div></div>`:''}
     <select class="i" id="p-ct"><option value="" disabled ${!p?'selected':''}>${t('selCat')}</option>${co2}</select>
+    <!-- Product Options -->
+    <div style="padding:14px;border-radius:14px;background:#F5F0EA;border:1px solid #EDE8E1">
+      <div style="font-size:12px;font-weight:700;margin-bottom:10px">⚙️ ${L==='ar'?'خيارات المنتج':'Product Options'}</div>
+      <!-- Toggle switches -->
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px">
+        <label style="display:flex;align-items:center;gap:6px;padding:6px 12px;border-radius:10px;background:#fff;cursor:pointer;font-size:11px;font-weight:600"><input type="checkbox" id="p-showColors" ${p?.showColors?'checked':''} style="accent-color:#C8956C"/>🎨 ${t('optShowColors')}</label>
+        <label style="display:flex;align-items:center;gap:6px;padding:6px 12px;border-radius:10px;background:#fff;cursor:pointer;font-size:11px;font-weight:600"><input type="checkbox" id="p-showSizes" ${p?.showSizes?'checked':''} style="accent-color:#C8956C"/>📏 ${t('optShowSizes')}</label>
+        <label style="display:flex;align-items:center;gap:6px;padding:6px 12px;border-radius:10px;background:#fff;cursor:pointer;font-size:11px;font-weight:600"><input type="checkbox" id="p-showGift" ${p?.showGift?'checked':''} style="accent-color:#C8956C"/>🎁 ${t('optShowGift')}</label>
+      </div>
+      <!-- Colors -->
+      ${editId?`<div style="margin-bottom:10px"><div style="font-size:11px;font-weight:600;margin-bottom:6px">🎨 ${t('optColors')}</div><div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">${(p?.colors||[]).map((c,ci)=>`<div style="position:relative"><div style="width:30px;height:30px;border-radius:15px;background:${c};border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.15)"></div><button onclick="rmProdColor(${p.id},${ci})" style="position:absolute;top:-4px;right:-4px;width:14px;height:14px;border-radius:7px;background:#EF4444;color:#fff;border:none;font-size:8px;cursor:pointer;display:flex;align-items:center;justify-content:center">×</button></div>`).join('')}<div style="display:flex;align-items:center;gap:4px"><input type="color" id="pc-${p.id}" value="#C8956C" style="width:30px;height:30px;border:none;border-radius:8px;cursor:pointer"/><button onclick="addProdColor(${p.id})" style="padding:4px 10px;border-radius:8px;background:#C8956C;color:#fff;border:none;font-size:10px;font-weight:600;cursor:pointer">+</button></div></div></div>`:
+      `<div style="font-size:10px;color:#8A8580;margin-bottom:10px">💡 ${L==='ar'?'احفظ المنتج أولاً ثم عدّله لإضافة الألوان':'Save the product first, then edit to add colors'}</div>`}
+      <!-- Sizes -->
+      <div><div style="font-size:11px;font-weight:600;margin-bottom:6px">📏 ${t('optSizes')}</div><input class="i" id="p-sizes" placeholder="${t('optSizesHint')}" dir="ltr" value="${p?.sizes?.join(', ')||''}" style="padding:8px 10px;font-size:12px"/></div>
+    </div>
     <div style="display:flex;gap:8px"><button class="bp" onclick="saveProd()" style="flex:1">${t('save')}</button><button class="bo" onclick="goA('prods')" style="flex:1">${t('cancel')}</button></div>
   </div></div>`}
 
@@ -1069,9 +1126,26 @@ function rAdmin(){
   const sub={dash:rADash,fin:rAFin,ords:rAOrds,bnr:rABnr,prods:rAProds,addp:rAAddP,stk:rAStk,cats:rACats,pays:rAPays,dlvr:rADlvr,pay:rAPayS,ig:rAIG,coup:rACoup,custs:rACusts,reset:rAReset};
   return`<div style="padding-bottom:16px"><div class="hd"><div><div class="tt">🔐 ${t('adm')}</div><div style="font-size:10px;color:#8A8580">👤 ${ADM_U}</div></div><div style="display:flex;gap:6px;align-items:center">${rLT()}<button onclick="admOut()" style="padding:4px 10px;border-radius:12px;border:1px solid #EF444430;background:#FEF2F2;font-size:10px;font-weight:600;cursor:pointer;color:#EF4444">${t('admO')}</button></div></div>${(sub[ap]||rADash)()}</div>`}
 
+function rDetail(){
+  if(!detailProd)return'';
+  const p=detailProd;const d=L==='ar'?'right':'left';
+  return`<div class="ov" onclick="closeDetail()" style="z-index:160"><div class="os fu" onclick="event.stopPropagation()" style="padding:0;max-height:85vh">
+  <div style="height:200px;background:linear-gradient(135deg,#F5F0EA,#EDE8E1);display:flex;align-items:center;justify-content:center;font-size:64px;position:relative;overflow:hidden;border-radius:28px 28px 0 0">${p.photo?`<img src="${p.photo}" style="width:100%;height:100%;object-fit:cover"/>`:p.img}
+    <button onclick="closeDetail()" style="position:absolute;top:14px;${d}:14px;width:32px;height:32px;border-radius:16px;background:rgba(0,0,0,.4);color:#fff;border:none;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center">✕</button>
+  </div>
+  <div style="padding:20px 22px 28px">
+    <div style="font-size:18px;font-weight:700;line-height:1.3">${pn(p)}</div>
+    ${pd(p)?`<div style="font-size:12px;color:#8A8580;margin-top:4px;line-height:1.5">${pd(p)}</div>`:''}
+    <div style="font-size:22px;font-weight:800;color:#C8956C;margin-top:8px">${p.price} <span style="font-size:12px;font-weight:500;color:#8A8580">${t('qar')}</span></div>
+    ${p.showColors&&p.colors?.length?`<div style="margin-top:16px"><div style="font-size:12px;font-weight:700;margin-bottom:8px">🎨 ${t('optColor')}</div><div style="display:flex;gap:8px;flex-wrap:wrap">${p.colors.map(c=>`<div onclick="pickColor('${c}')" style="width:36px;height:36px;border-radius:18px;background:${c};cursor:pointer;border:3px solid ${selColor===c?'#C8956C':'#EDE8E1'};box-shadow:${selColor===c?'0 0 0 2px #C8956C':'none'};transition:all .2s"></div>`).join('')}</div></div>`:''}
+    ${p.showSizes&&p.sizes?.length?`<div style="margin-top:16px"><div style="font-size:12px;font-weight:700;margin-bottom:8px">📏 ${t('optSize')}</div><div style="display:flex;gap:6px;flex-wrap:wrap">${p.sizes.map(s=>`<button onclick="pickSize('${s}')" style="padding:8px 18px;border-radius:12px;border:2px solid ${selSize===s?'#C8956C':'#EDE8E1'};background:${selSize===s?'#C8956C15':'#fff'};color:${selSize===s?'#C8956C':'#8A8580'};font-size:13px;font-weight:600;cursor:pointer;transition:all .2s">${s}</button>`).join('')}</div></div>`:''}
+    ${p.showGift?`<div style="margin-top:16px"><div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"><span style="font-size:12px;font-weight:700">🎁 ${t('optGift')}</span><button onclick="isGift=!isGift;R()" style="padding:4px 12px;border-radius:10px;border:1.5px solid ${isGift?'#C8956C':'#EDE8E1'};background:${isGift?'#C8956C15':'#fff'};color:${isGift?'#C8956C':'#8A8580'};font-size:11px;font-weight:600;cursor:pointer">${isGift?'✓ ':''} ${isGift?(L==='ar'?'مفعّل':'On'):(L==='ar'?'إضافة':'Add')}</button></div>${isGift?`<textarea class="ta" onchange="giftMsg=this.value" placeholder="${t('optGiftHint')}" style="min-height:60px;font-size:13px">${giftMsg}</textarea>`:''}</div>`:''}
+    <button onclick="confirmAdd()" class="bp" style="margin-top:20px">${t('optAddToCart')} — ${p.price} ${t('qar')}</button>
+  </div></div></div>`}
+
 function R(){
   const pages={home:rShop,cart:rCart,orders:rOrd,acc:rAcc,admin:rAdmin};
-  document.getElementById('app').innerHTML=(pages[pg]||rShop)()+rNav()+rAS()+rAL();
+  document.getElementById('app').innerHTML=(pages[pg]||rShop)()+rNav()+rAS()+rAL()+rDetail();
   if(showAL){const i=document.getElementById('al-u');i&&i.focus()}
   if(pg==='home')setTimeout(initSlider,50);
 }
