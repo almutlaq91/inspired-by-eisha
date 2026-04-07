@@ -387,12 +387,10 @@ function rCart(){
         <div style="font-size:12px;color:#2D2A26">👤 ${cName}${cPhone?' &nbsp;•&nbsp; 📱 '+cPhone:''}</div>
       </div>
       <div style="padding:18px;text-align:center">
-        <div style="font-size:11px;font-weight:700;color:#8A8580;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px">${L==='ar'?'طرق الدفع المتاحة':'Payment Methods'}</div>
-        <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:18px">
-          <span style="padding:8px 14px;border-radius:10px;background:#F5F0EA;font-size:12px;font-weight:500;display:flex;align-items:center;gap:4px">💳 Visa/MC</span>
-          <span style="padding:8px 14px;border-radius:10px;background:#F5F0EA;font-size:12px;font-weight:500;display:flex;align-items:center;gap:4px">🍎 Apple Pay</span>
-          <span style="padding:8px 14px;border-radius:10px;background:#F5F0EA;font-size:12px;font-weight:500;display:flex;align-items:center;gap:4px">🏦 KNET</span>
-          <span style="padding:8px 14px;border-radius:10px;background:#F5F0EA;font-size:12px;font-weight:500;display:flex;align-items:center;gap:4px">📲 STC Pay</span>
+        <div style="font-size:11px;font-weight:700;color:#8A8580;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px">${L==='ar'?'طريقة الدفع المتاحة':'Payment Methods'}</div>
+        الدفع عبر</div>
+        <div style="display:flex;justify-content:center;margin-bottom:18px">
+          <span style="padding:10px 24px;border-radius:12px;background:linear-gradient(135deg,#1A365D,#2D4A7A);font-size:14px;font-weight:700;color:#fff;display:flex;align-items:center;gap:6px"> MyFatoorah</span>
         </div>
         <div id="pay-err" style="display:none;padding:10px;border-radius:10px;background:#FEF2F2;color:#EF4444;font-size:12px;font-weight:600;margin-bottom:12px"></div>
         <button id="pay-btn" onclick="doPay()" style="width:100%;padding:16px 0;border-radius:14px;background:linear-gradient(135deg,#C8956C,#A67548);color:#fff;border:none;font-size:16px;font-weight:700;cursor:pointer;box-shadow:0 4px 16px rgba(200,149,108,.3);transition:transform .15s,box-shadow .15s" onmouseover="this.style.transform='translateY(-1px)';this.style.boxShadow='0 6px 20px rgba(200,149,108,.4)'" onmouseout="this.style.transform='';this.style.boxShadow='0 4px 16px rgba(200,149,108,.3)'">${t('pay')} ${tot} ${t('qar')}</button>
