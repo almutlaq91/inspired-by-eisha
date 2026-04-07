@@ -78,14 +78,14 @@ input,button,select,textarea{font-family:inherit;transition:all .2s ease-in-out}
 const ADM_U='eisha', ADM_P='eisha2024';
 
 const DF_PRODS=[
-  {id:1,ar:'أسوارة ذهبية',en:'Gold Cuff Bracelet',dar:'أسوارة أنيقة بتصميم عصري',den:'Elegant modern design bracelet',price:185,cat:'acc',img:'🪙',r:4.8,rv:42,stock:15,on:true},
-  {id:2,ar:'حقيبة كتان',en:'Linen Tote Bag',dar:'حقيبة يومية من الكتان الطبيعي',den:'Natural linen daily tote',price:120,cat:'bag',img:'👜',r:4.9,rv:67,stock:23,on:true},
-  {id:3,ar:'طقم شموع',en:'Ceramic Candle Set',dar:'طقم شموع سيراميك برائحة مميزة',den:'Scented ceramic candle set',price:95,cat:'hom',img:'🕯️',r:4.7,rv:31,stock:40,on:true},
-  {id:4,ar:'وشاح حرير',en:'Silk Scarf',dar:'وشاح حرير ناعم بألوان هادئة',den:'Soft silk scarf in calm tones',price:220,cat:'fas',img:'🧣',r:5.0,rv:18,stock:8,on:true},
-  {id:5,ar:'طقم أكواب عقيق',en:'Agate Coaster Set',dar:'أكواب من حجر العقيق الطبيعي',den:'Natural agate stone coasters',price:150,cat:'hom',img:'💎',r:4.6,rv:55,stock:12,on:true},
-  {id:6,ar:'مرآة خيزران',en:'Rattan Mirror',dar:'مرآة دائرية بإطار خيزران',den:'Round mirror with rattan frame',price:310,cat:'hom',img:'🪞',r:4.9,rv:23,stock:5,on:true},
-  {id:7,ar:'حلق لؤلؤ',en:'Pearl Drop Earrings',dar:'حلق متدلي بلؤلؤ طبيعي',den:'Natural pearl drop earrings',price:165,cat:'acc',img:'✨',r:4.8,rv:39,stock:30,on:true},
-  {id:8,ar:'بطانية قطن',en:'Cotton Throw',dar:'بطانية قطن ناعمة للمنزل',den:'Soft cotton home throw blanket',price:275,cat:'hom',img:'🛋️',r:4.7,rv:44,stock:18,on:true},
+  {id:1,ar:'أسوارة ذهبية',en:'Gold Cuff Bracelet',dar:'أسوارة أنيقة بتصميم عصري',den:'Elegant modern design bracelet',price:185,cost:90,cat:'acc',img:'🪙',r:4.8,rv:42,stock:15,on:true},
+  {id:2,ar:'حقيبة كتان',en:'Linen Tote Bag',dar:'حقيبة يومية من الكتان الطبيعي',den:'Natural linen daily tote',price:120,cost:55,cat:'bag',img:'👜',r:4.9,rv:67,stock:23,on:true},
+  {id:3,ar:'طقم شموع',en:'Ceramic Candle Set',dar:'طقم شموع سيراميك برائحة مميزة',den:'Scented ceramic candle set',price:95,cost:40,cat:'hom',img:'🕯️',r:4.7,rv:31,stock:40,on:true},
+  {id:4,ar:'وشاح حرير',en:'Silk Scarf',dar:'وشاح حرير ناعم بألوان هادئة',den:'Soft silk scarf in calm tones',price:220,cost:110,cat:'fas',img:'🧣',r:5.0,rv:18,stock:8,on:true},
+  {id:5,ar:'طقم أكواب عقيق',en:'Agate Coaster Set',dar:'أكواب من حجر العقيق الطبيعي',den:'Natural agate stone coasters',price:150,cost:65,cat:'hom',img:'💎',r:4.6,rv:55,stock:12,on:true},
+  {id:6,ar:'مرآة خيزران',en:'Rattan Mirror',dar:'مرآة دائرية بإطار خيزران',den:'Round mirror with rattan frame',price:310,cost:160,cat:'hom',img:'🪞',r:4.9,rv:23,stock:5,on:true},
+  {id:7,ar:'حلق لؤلؤ',en:'Pearl Drop Earrings',dar:'حلق متدلي بلؤلؤ طبيعي',den:'Natural pearl drop earrings',price:165,cost:70,cat:'acc',img:'✨',r:4.8,rv:39,stock:30,on:true},
+  {id:8,ar:'بطانية قطن',en:'Cotton Throw',dar:'بطانية قطن ناعمة للمنزل',den:'Soft cotton home throw blanket',price:275,cost:130,cat:'hom',img:'🛋️',r:4.7,rv:44,stock:18,on:true},
 ];
 const DF_CATS=[{k:'all',ar:'الكل',en:'All',on:true},{k:'acc',ar:'اكسسوارات',en:'Accessories',on:true},{k:'fas',ar:'أزياء',en:'Fashion',on:true},{k:'bag',ar:'حقائب',en:'Bags',on:true},{k:'hom',ar:'منزل',en:'Home',on:true}];
 const DF_PAYS=[{nm:'KNET',ic:'🏦',on:true},{nm:'Visa/MC',ic:'💳',on:true},{nm:'Apple Pay',ic:'🍎',on:true},{nm:'STC Pay',ic:'📲',on:true}];
@@ -171,6 +171,7 @@ frRevenue:'الإيرادات',frOrders:'الطلبات',frAvgOrder:'متوسط 
 frTopProducts:'الأكثر مبيعاً',frTopZones:'المناطق الأكثر طلباً',frNoData:'لا توجد بيانات لهذه الفترة',
 frSold:'مبيع',frGrowth:'النمو',frCompare:'مقارنة بالفترة السابقة',frPeriodLabel:'الفترة',
 admOrds:'إدارة الطلبات',delOrd:'حذف',delAllOrd:'حذف جميع الطلبات',delAllConfirm:'هل تريد حذف جميع الطلبات؟ لا يمكن التراجع!',resetAll:'استعادة الافتراضي',resetConfirm:'هل تريد استعادة جميع البيانات للوضع الافتراضي؟ سيتم حذف كل شيء!',resetDone:'تم استعادة الافتراضي!',noOrders:'لا توجد طلبات',ordDeleted:'تم حذف الطلب',allDeleted:'تم حذف جميع الطلبات',changeStatus:'تغيير الحالة',
+pCost:'سعر التكلفة',pSell:'سعر البيع',pProfit:'الربح',pMargin:'هامش الربح',profitPerItem:'ربح القطعة',totalCost:'إجمالي التكلفة',totalProfit:'إجمالي الربح',grossProfit:'الربح الإجمالي',netProfit:'صافي الربح',profitMargin:'نسبة الربح',investValue:'قيمة المخزون (تكلفة)',expectedRev:'الإيرادات المتوقعة',expectedProfit:'الربح المتوقع',costAnalysis:'تحليل التكاليف',profitByProduct:'الربح حسب المنتج',noCost:'لم تُحدد التكلفة',
 },en:{
 shop:'Shop',cartT:'Cart',ordersT:'Orders',acc:'Account',
 na:'New Arrivals',cur:'Curated for you',sn:'Shop Now',fig:'Follow on Instagram',
@@ -212,6 +213,7 @@ frRevenue:'Revenue',frOrders:'Orders',frAvgOrder:'Avg Order',frDelivery:'Deliver
 frTopProducts:'Top Products',frTopZones:'Top Zones',frNoData:'No data for this period',
 frSold:'sold',frGrowth:'Growth',frCompare:'vs previous period',frPeriodLabel:'Period',
 admOrds:'Manage Orders',delOrd:'Delete',delAllOrd:'Delete All Orders',delAllConfirm:'Delete all orders? This cannot be undone!',resetAll:'Reset to Default',resetConfirm:'Reset all data to default? Everything will be deleted!',resetDone:'Reset complete!',noOrders:'No orders',ordDeleted:'Order deleted',allDeleted:'All orders deleted',changeStatus:'Change Status',
+pCost:'Cost Price',pSell:'Sell Price',pProfit:'Profit',pMargin:'Margin',profitPerItem:'Profit/Item',totalCost:'Total Cost',totalProfit:'Total Profit',grossProfit:'Gross Profit',netProfit:'Net Profit',profitMargin:'Profit %',investValue:'Inventory Value (Cost)',expectedRev:'Expected Revenue',expectedProfit:'Expected Profit',costAnalysis:'Cost Analysis',profitByProduct:'Profit by Product',noCost:'No cost set',
 }};
 const t=k=>(T[L]||T.ar)[k]||k;
 const pn=p=>L==='ar'?p.ar:p.en;
@@ -276,7 +278,7 @@ async function doPay(){
     const data=await res.json();
     if(data.success&&data.paymentUrl){
       cart.forEach(ci=>{const p=prods.find(x=>x.id===ci.id);if(p&&p.stock>0)p.stock--});SS('prods',prods);
-      const ord={id:data.invoiceId||ordId,items:cart.map(c=>({id:c.id,nm:pn(c),pr:c.price})),total,ship,disc,coupon:appliedCoupon?appliedCoupon.code:'',zone:selZone,dlvrType:selType,status:'prc',date:new Date().toLocaleDateString('en',{month:'short',day:'numeric'}),ts:Date.now(),cust:cName,phone:cu?cu.phone:(gi?gi.phone:''),notes:oNotes};
+      const ord={id:data.invoiceId||ordId,items:cart.map(c=>({id:c.id,nm:pn(c),pr:c.price,cost:c.cost||0})),total,ship,disc,coupon:appliedCoupon?appliedCoupon.code:'',zone:selZone,dlvrType:selType,status:'prc',date:new Date().toLocaleDateString('en',{month:'short',day:'numeric'}),ts:Date.now(),cust:cName,phone:cu?cu.phone:(gi?gi.phone:''),notes:oNotes};
       orders.push(ord);SS('orders',orders);
       cart=[];SS('cart',cart);appliedCoupon=null;
       window.location.href=data.paymentUrl;
@@ -311,11 +313,12 @@ function saveProd(){
   const ar=document.getElementById('p-ar')?.value?.trim(),en=document.getElementById('p-en')?.value?.trim();
   const dar=document.getElementById('p-dar')?.value?.trim()||'',den=document.getElementById('p-den')?.value?.trim()||'';
   const pr=parseFloat(document.getElementById('p-pr')?.value)||0;
+  const cost=parseFloat(document.getElementById('p-cost')?.value)||0;
   const ct=document.getElementById('p-ct')?.value||'acc',sk=parseInt(document.getElementById('p-sk')?.value)||0;
   const img=document.getElementById('p-img-d')?.value||'📦';
   if(!ar||!en||!pr){alert(t('reqF'));return}
-  if(editId){const p=prods.find(x=>x.id===editId);if(p){p.ar=ar;p.en=en;p.dar=dar;p.den=den;p.price=pr;p.cat=ct;p.stock=sk;if(img!=='keep')p.img=img;p.photo=img.startsWith('data:')?img:null}}
-  else{prods.push({id:Date.now(),ar,en,dar,den,price:pr,cat:ct,img:img.startsWith('data:')?'📦':img,photo:img.startsWith('data:')?img:null,r:0,rv:0,stock:sk,on:true})}
+  if(editId){const p=prods.find(x=>x.id===editId);if(p){p.ar=ar;p.en=en;p.dar=dar;p.den=den;p.price=pr;p.cost=cost;p.cat=ct;p.stock=sk;if(img!=='keep')p.img=img;p.photo=img.startsWith('data:')?img:null}}
+  else{prods.push({id:Date.now(),ar,en,dar,den,price:pr,cost,cat:ct,img:img.startsWith('data:')?'📦':img,photo:img.startsWith('data:')?img:null,r:0,rv:0,stock:sk,on:true})}
   SS('prods',prods);editId=null;ap='prods';R();
 }
 function editPr(id){editId=id;ap='addp';R()}
@@ -529,9 +532,24 @@ function rAFin(){
   const growth=calcGrowth(currRev,prevRev);
   const growthO=calcGrowth(curr.length,prev.length);
 
-  // Top products
+  // Cost & Profit calculations
+  const currCost=curr.reduce((a,o)=>a+o.items.reduce((b,it)=>b+(it.cost||0),0),0);
+  const prevCost=prev.reduce((a,o)=>a+o.items.reduce((b,it)=>b+(it.cost||0),0),0);
+  const grossProfit=currRev-currCost;
+  const netProfit=grossProfit-currDisc;
+  const prevGross=prevRev-prevCost;
+  const profitMargin=currRev?Math.round(grossProfit/currRev*100):0;
+  const netMargin=currRev?Math.round(netProfit/currRev*100):0;
+  const growthProfit=calcGrowth(grossProfit,prevGross);
+
+  // Inventory value
+  const inventoryCost=prods.reduce((a,p)=>a+(p.cost||0)*p.stock,0);
+  const inventoryRev=prods.reduce((a,p)=>a+p.price*p.stock,0);
+  const inventoryProfit=inventoryRev-inventoryCost;
+
+  // Top products with profit
   const prodMap={};
-  curr.forEach(o=>o.items.forEach(it=>{const k=it.nm||it.id;if(!prodMap[k])prodMap[k]={nm:k,qty:0,rev:0};prodMap[k].qty++;prodMap[k].rev+=it.pr||0;}));
+  curr.forEach(o=>o.items.forEach(it=>{const k=it.nm||it.id;if(!prodMap[k])prodMap[k]={nm:k,qty:0,rev:0,cost:0};prodMap[k].qty++;prodMap[k].rev+=it.pr||0;prodMap[k].cost+=it.cost||0;}));
   const topProds=Object.values(prodMap).sort((a,b)=>b.rev-a.rev).slice(0,5);
   const maxProdRev=topProds.length?topProds[0].rev:1;
 
@@ -604,37 +622,89 @@ function rAFin(){
       <div style="font-size:9px;color:#8A8580;margin-top:4px">${t('qar')}</div>
     </div>
     <div class="sc fu" style="text-align:center;animation-delay:150ms">
-      <div style="font-size:9px;color:#8A8580;font-weight:600">${t('frNet')}</div>
-      <div style="font-size:22px;font-weight:800;color:#5B9A6F;margin-top:3px">${net}</div>
+      <div style="font-size:9px;color:#8A8580;font-weight:600">${t('totalCost')}</div>
+      <div style="font-size:22px;font-weight:800;color:#F59E0B;margin-top:3px">${currCost}</div>
       <div style="font-size:9px;color:#8A8580;margin-top:4px">${t('qar')}</div>
     </div>
   </div>
 
-  <!-- Delivery & Discounts -->
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:14px">
-    <div class="sc fu" style="animation-delay:200ms">
-      <div style="display:flex;align-items:center;gap:6px"><span style="font-size:16px">🚚</span><div><div style="font-size:9px;color:#8A8580">${t('frDelivery')}</div><div style="font-size:16px;font-weight:800;color:#F59E0B">${currShip} <span style="font-size:9px;font-weight:500;color:#8A8580">${t('qar')}</span></div></div></div>
+  <!-- Profit Hero Card -->
+  <div class="c fu" style="margin-bottom:12px;overflow:hidden;border:none;background:linear-gradient(135deg,#1B4332,#2D6A4F);color:#fff;animation-delay:180ms">
+    <div style="padding:18px;position:relative">
+      <div style="position:absolute;top:-15px;${L==='ar'?'left':'right'}:-15px;width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,.06)"></div>
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div>
+          <div style="font-size:10px;opacity:.6;font-weight:600;letter-spacing:1px;text-transform:uppercase">📈 ${t('grossProfit')}</div>
+          <div style="font-size:28px;font-weight:800;margin-top:4px">${grossProfit} <span style="font-size:12px;font-weight:500;opacity:.6">${t('qar')}</span></div>
+        </div>
+        <span class="fr-pill" style="background:${growthProfit>=0?'rgba(139,195,155,.2)':'rgba(239,68,68,.2)'};color:${growthProfit>=0?'#8FD4A0':'#FCA5A5'}">${growthProfit>=0?'↑':'↓'} ${Math.abs(growthProfit)}%</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,.1)">
+        <div><div style="font-size:8px;opacity:.5;text-transform:uppercase">${t('netProfit')}</div><div style="font-size:16px;font-weight:800;margin-top:2px">${netProfit}</div></div>
+        <div><div style="font-size:8px;opacity:.5;text-transform:uppercase">${t('profitMargin')}</div><div style="font-size:16px;font-weight:800;margin-top:2px">${profitMargin}%</div></div>
+        <div><div style="font-size:8px;opacity:.5;text-transform:uppercase">${L==='ar'?'صافي %':'Net %'}</div><div style="font-size:16px;font-weight:800;margin-top:2px">${netMargin}%</div></div>
+      </div>
     </div>
-    <div class="sc fu" style="animation-delay:250ms">
-      <div style="display:flex;align-items:center;gap:6px"><span style="font-size:16px">🎟️</span><div><div style="font-size:9px;color:#8A8580">${t('frDiscounts')}</div><div style="font-size:16px;font-weight:800;color:#EF4444">${currDisc} <span style="font-size:9px;font-weight:500;color:#8A8580">${t('qar')}</span></div></div></div>
+  </div>
+
+  <!-- Financial Breakdown -->
+  <div class="c fu" style="padding:16px;margin-bottom:12px;animation-delay:220ms">
+    <div style="font-size:13px;font-weight:700;margin-bottom:12px">💰 ${t('costAnalysis')}</div>
+    ${[
+      {l:t('frRevenue'),v:currRev,c:'#2D2A26',ic:'💵'},
+      {l:t('totalCost'),v:'-'+currCost,c:'#F59E0B',ic:'📦'},
+      {l:t('grossProfit'),v:grossProfit,c:'#5B9A6F',ic:'📈',bold:true},
+      {l:t('frDiscounts'),v:currDisc?'-'+currDisc:'0',c:'#EF4444',ic:'🎟️'},
+      {l:t('frDelivery')+' ('+( L==='ar'?'محصّل':'collected')+')',v:'+'+currShip,c:'#4A90D9',ic:'🚚'},
+      {l:t('netProfit'),v:netProfit+currShip,c:'#1B4332',ic:'✅',bold:true},
+    ].map(r=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;${r.bold?'border-top:2px solid #EDE8E1;padding-top:10px;margin-top:2px':'border-bottom:1px solid #F5F0EA'}">
+      <span style="font-size:11px;color:#8A8580;display:flex;align-items:center;gap:5px">${r.ic} ${r.l}</span>
+      <span style="font-size:${r.bold?'14':'12'}px;font-weight:${r.bold?800:600};color:${r.c}">${r.v} ${t('qar')}</span>
+    </div>`).join('')}
+  </div>
+
+  <!-- Inventory Value -->
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:14px">
+    <div class="sc fu" style="text-align:center;animation-delay:260ms">
+      <div style="font-size:8px;color:#8A8580;font-weight:600">${t('investValue')}</div>
+      <div style="font-size:16px;font-weight:800;color:#F59E0B;margin-top:3px">${inventoryCost}</div>
+      <div style="font-size:8px;color:#8A8580">${t('qar')}</div>
+    </div>
+    <div class="sc fu" style="text-align:center;animation-delay:290ms">
+      <div style="font-size:8px;color:#8A8580;font-weight:600">${t('expectedRev')}</div>
+      <div style="font-size:16px;font-weight:800;color:#4A90D9;margin-top:3px">${inventoryRev}</div>
+      <div style="font-size:8px;color:#8A8580">${t('qar')}</div>
+    </div>
+    <div class="sc fu" style="text-align:center;animation-delay:320ms">
+      <div style="font-size:8px;color:#8A8580;font-weight:600">${t('expectedProfit')}</div>
+      <div style="font-size:16px;font-weight:800;color:#5B9A6F;margin-top:3px">${inventoryProfit}</div>
+      <div style="font-size:8px;color:#8A8580">${t('qar')}</div>
     </div>
   </div>
 
   ${curr.length===0?`<div style="text-align:center;padding:30px 0;color:#8A8580"><div style="font-size:36px;margin-bottom:8px">📭</div><div style="font-size:13px">${t('frNoData')}</div></div>`:`
-  <!-- Top Products -->
+  <!-- Top Products with Profit -->
   <div class="c fu" style="padding:16px;margin-bottom:12px;animation-delay:300ms">
-    <div style="font-size:13px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:6px">🏆 ${t('frTopProducts')}</div>
-    ${topProds.map((p,i)=>`<div class="fr-row">
+    <div style="font-size:13px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:6px">🏆 ${t('profitByProduct')}</div>
+    ${topProds.map((p,i)=>{const profit=p.rev-p.cost;const margin=p.rev?Math.round(profit/p.rev*100):0;return`<div class="fr-row" style="flex-wrap:wrap">
       <div style="width:22px;height:22px;border-radius:11px;background:${i===0?'#C8956C':i===1?'#A8A29E':'#D6CFC7'};color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;flex-shrink:0">${i+1}</div>
       <div style="flex:1;min-width:0">
         <div style="font-size:11px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.nm}</div>
-        <div style="margin-top:4px;background:#F5F0EA;border-radius:4px;overflow:hidden"><div class="fr-bar" style="width:${Math.round(p.rev/maxProdRev*100)}%;background:linear-gradient(90deg,#C8956C,#E8CDB5)"></div></div>
+        <div style="display:flex;gap:8px;margin-top:3px;font-size:9px">
+          <span style="color:#8A8580">${t('pSell')}: ${p.rev}</span>
+          <span style="color:#F59E0B">${t('pCost')}: ${p.cost}</span>
+          <span style="font-weight:700;color:#5B9A6F">${t('pProfit')}: ${profit}</span>
+        </div>
+        <div style="margin-top:4px;background:#F5F0EA;border-radius:4px;overflow:hidden;display:flex">
+          <div class="fr-bar" style="width:${p.cost&&p.rev?Math.round(p.cost/p.rev*100):0}%;background:#F59E0B40;border-radius:4px 0 0 4px"></div>
+          <div class="fr-bar" style="width:${margin}%;background:linear-gradient(90deg,#5B9A6F,#8FD4A0);border-radius:0 4px 4px 0"></div>
+        </div>
       </div>
       <div style="text-align:${L==='ar'?'left':'right'};flex-shrink:0">
-        <div style="font-size:12px;font-weight:700;color:#5B9A6F">${p.rev} <span style="font-size:8px;color:#8A8580">${t('qar')}</span></div>
-        <div style="font-size:9px;color:#8A8580">${p.qty} ${t('frSold')}</div>
+        <div style="font-size:13px;font-weight:800;color:#5B9A6F">${profit} <span style="font-size:8px;color:#8A8580">${t('qar')}</span></div>
+        <div style="font-size:9px;color:#8A8580">${p.qty} ${t('frSold')} • ${margin}%</div>
       </div>
-    </div>`).join('')}
+    </div>`}).join('')}
   </div>
 
   <!-- Top Zones -->
@@ -729,7 +799,7 @@ function rAReset(){
   </div>`}
 
 function rAProds(){
-  return`${rANav()}<div style="padding:0 12px 6px"><button class="bp" onclick="editId=null;goA('addp')" style="font-size:12px;padding:10px 0">${t('addP')} +</button></div>${prods.map(p=>`<div class="c" style="margin:0 12px 6px;padding:10px;display:flex;align-items:center;gap:10px"><div style="width:42px;height:42px;border-radius:8px;background:#F5F0EA;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;overflow:hidden">${p.photo?`<img src="${p.photo}" style="width:100%;height:100%;object-fit:cover"/>`:p.img}</div><div style="flex:1;min-width:0"><div style="font-size:11px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${pn(p)}</div><div style="font-size:10px;color:#8A8580">${p.price} ${t('qar')} • ${t('pS')}: ${p.stock}</div></div><div style="display:flex;gap:4px;flex-shrink:0"><button onclick="tgPr(${p.id})" class="tg" style="background:${p.on?'#5B9A6F15':'#EF444415'};color:${p.on?'#5B9A6F':'#EF4444'}">${p.on?'✓':'✗'}</button><button onclick="editPr(${p.id})" style="padding:4px 8px;border-radius:6px;border:1px solid #EDE8E1;background:#fff;font-size:10px;cursor:pointer">✏️</button><button onclick="delPr(${p.id})" style="padding:4px 8px;border-radius:6px;background:#FEF2F2;border:1px solid #FECACA;font-size:10px;cursor:pointer;color:#EF4444">🗑️</button></div></div>`).join('')}`}
+  return`${rANav()}<div style="padding:0 12px 6px"><button class="bp" onclick="editId=null;goA('addp')" style="font-size:12px;padding:10px 0">${t('addP')} +</button></div>${prods.map(p=>{const profit=p.cost?(p.price-p.cost):0;const margin=p.cost?Math.round(profit/p.price*100):0;return`<div class="c" style="margin:0 12px 6px;padding:10px;display:flex;align-items:center;gap:10px"><div style="width:42px;height:42px;border-radius:8px;background:#F5F0EA;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;overflow:hidden">${p.photo?`<img src="${p.photo}" style="width:100%;height:100%;object-fit:cover"/>`:p.img}</div><div style="flex:1;min-width:0"><div style="font-size:11px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${pn(p)}</div><div style="font-size:10px;color:#8A8580">${t('pSell')}: ${p.price} ${p.cost?'• '+t('pCost')+': '+p.cost:''} • ${t('pS')}: ${p.stock}</div>${p.cost?`<div style="font-size:9px;font-weight:600;color:#5B9A6F;margin-top:1px">📈 ${t('pProfit')}: ${profit} ${t('qar')} (${margin}%)</div>`:''}</div><div style="display:flex;gap:4px;flex-shrink:0"><button onclick="tgPr(${p.id})" class="tg" style="background:${p.on?'#5B9A6F15':'#EF444415'};color:${p.on?'#5B9A6F':'#EF4444'}">${p.on?'✓':'✗'}</button><button onclick="editPr(${p.id})" style="padding:4px 8px;border-radius:6px;border:1px solid #EDE8E1;background:#fff;font-size:10px;cursor:pointer">✏️</button><button onclick="delPr(${p.id})" style="padding:4px 8px;border-radius:6px;background:#FEF2F2;border:1px solid #FECACA;font-size:10px;cursor:pointer;color:#EF4444">🗑️</button></div></div>`}).join('')}`}
 
 function rAAddP(){
   const p=editId?prods.find(x=>x.id===editId):null;
@@ -743,7 +813,8 @@ function rAAddP(){
     <input class="i" id="p-en" placeholder="${t('pnEn')}" value="${p?p.en:''}" dir="ltr"/>
     <textarea class="ta" id="p-dar" placeholder="${t('dAr')}">${p?p.dar||'':''}</textarea>
     <textarea class="ta" id="p-den" placeholder="${t('dEn')}" dir="ltr">${p?p.den||'':''}</textarea>
-    <div style="display:flex;gap:8px"><input class="i" id="p-pr" type="number" placeholder="${t('pP')}" value="${p?p.price:''}" dir="ltr" style="flex:1"/><input class="i" id="p-sk" type="number" placeholder="${t('pS')}" value="${p?p.stock:0}" dir="ltr" style="width:70px"/></div>
+    <div style="display:flex;gap:8px"><input class="i" id="p-pr" type="number" placeholder="${t('pSell')} 💰" value="${p?p.price:''}" dir="ltr" style="flex:1"/><input class="i" id="p-cost" type="number" placeholder="${t('pCost')} 📦" value="${p?p.cost||'':''}" dir="ltr" style="flex:1"/><input class="i" id="p-sk" type="number" placeholder="${t('pS')}" value="${p?p.stock:0}" dir="ltr" style="width:60px"/></div>
+    ${p&&p.cost?`<div style="padding:12px;border-radius:12px;background:linear-gradient(135deg,#5B9A6F08,#5B9A6F15);border:1px solid #5B9A6F25"><div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:4px"><span style="color:#8A8580">${t('profitPerItem')}</span><span style="font-weight:700;color:#5B9A6F">${p.price-p.cost} ${t('qar')}</span></div><div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:4px"><span style="color:#8A8580">${t('profitMargin')}</span><span style="font-weight:700;color:#5B9A6F">${Math.round((p.price-p.cost)/p.price*100)}%</span></div><div style="display:flex;justify-content:space-between;font-size:11px"><span style="color:#8A8580">${t('expectedProfit')} (${p.stock} ${t('pS')})</span><span style="font-weight:700;color:#5B9A6F">${(p.price-p.cost)*p.stock} ${t('qar')}</span></div></div>`:''}
     <select class="i" id="p-ct"><option value="" disabled ${!p?'selected':''}>${t('selCat')}</option>${co2}</select>
     <div style="display:flex;gap:8px"><button class="bp" onclick="saveProd()" style="flex:1">${t('save')}</button><button class="bo" onclick="goA('prods')" style="flex:1">${t('cancel')}</button></div>
   </div></div>`}
