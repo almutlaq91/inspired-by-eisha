@@ -119,6 +119,9 @@ let ap='dash',editId=null;
 let selZone='',selType='normal'; // normal|cart
 let coupons=LS('coupons')||[];
 let appliedCoupon=null;
+let custNotes=LS('custNotes')||{};
+let custBlocks=LS('custBlocks')||[];
+let viewCust=null,custFilter='all',custQ='';
 
 const sv=k=>SS(k,({prods,cats,pays,zones,dlvr,cart,users,orders,stg})[k]);
 
@@ -158,6 +161,7 @@ lowStk:'مخزون منخفض',outStk:'نفد',inStk:'متوفر',
 addZone:'إضافة منطقة',zoneName:'اسم المنطقة',zoneEn:'بالانجليزي',
 recentO:'آخر الطلبات',topP:'الأكثر مبيعاً',
 coupT:'أكواد الخصم',addCoup:'إضافة كود',coupCode:'كود الخصم',coupPct:'نسبة الخصم %',coupOn:'مفعل',coupOff:'معطل',noCoup:'لا توجد أكواد',applyCoup:'تطبيق',removeCoup:'إزالة',coupApplied:'تم تطبيق الخصم!',coupInvalid:'كود غير صالح',coupPlace:'أدخل كود الخصم',discount:'الخصم',
+custDB:'العملاء',custTotal:'إجمالي المشتريات',custOrders:'الطلبات',custSince:'عميل منذ',custGuest:'ضيف',custReg:'مسجل',custAll:'الكل',custSearch:'بحث عن عميل...',custNoOrd:'لا توجد طلبات',custNote:'ملاحظة',custNoteH:'أضف ملاحظة عن العميل...',custSaveNote:'حفظ',custBack:'رجوع',custBlock:'حظر',custUnblock:'إلغاء الحظر',custBlocked:'محظور',custDetails:'تفاصيل العميل',custOrdHist:'سجل الطلبات',custAddr:'العنوان',custNoCust:'لا يوجد عملاء',
 },en:{
 shop:'Shop',cartT:'Cart',ordersT:'Orders',acc:'Account',
 na:'New Arrivals',cur:'Curated for you',sn:'Shop Now',fig:'Follow on Instagram',
@@ -193,6 +197,7 @@ lowStk:'Low Stock',outStk:'Out',inStk:'In Stock',
 addZone:'Add Zone',zoneName:'Zone Name',zoneEn:'English',
 recentO:'Recent Orders',topP:'Top Products',
 coupT:'Discount Codes',addCoup:'Add Code',coupCode:'Discount Code',coupPct:'Discount %',coupOn:'Active',coupOff:'Disabled',noCoup:'No codes',applyCoup:'Apply',removeCoup:'Remove',coupApplied:'Discount applied!',coupInvalid:'Invalid code',coupPlace:'Enter discount code',discount:'Discount',
+custDB:'Customers',custTotal:'Total Spent',custOrders:'Orders',custSince:'Customer since',custGuest:'Guest',custReg:'Registered',custAll:'All',custSearch:'Search customer...',custNoOrd:'No orders',custNote:'Note',custNoteH:'Add a note about this customer...',custSaveNote:'Save',custBack:'Back',custBlock:'Block',custUnblock:'Unblock',custBlocked:'Blocked',custDetails:'Customer Details',custOrdHist:'Order History',custAddr:'Address',custNoCust:'No customers yet',
 }};
 const t=k=>(T[L]||T.ar)[k]||k;
 const pn=p=>L==='ar'?p.ar:p.en;
@@ -343,6 +348,27 @@ function editCoupPct(i){const np=parseFloat(document.getElementById('cp-e-'+i)?.
 function applyCouponCode(){const code=document.getElementById('cart-coup')?.value?.trim()?.toUpperCase();if(!code){appliedCoupon=null;R();return}const c=coupons.find(x=>x.code===code&&x.on);if(c){appliedCoupon=c;R()}else{appliedCoupon=null;alert(t('coupInvalid'));R()}}
 function removeCoupon(){appliedCoupon=null;R()}
 
+// ═══ ADMIN: CUSTOMERS ═══
+function getAllCusts(){
+  const map={};
+  // Registered users
+  users.forEach(u=>{if(!map[u.name])map[u.name]={name:u.name,email:u.email||'',phone:u.phone||'',type:'reg',orders:[],total:0}});
+  // Orders (includes guests)
+  orders.forEach(o=>{
+    const k=o.cust||'Unknown';
+    if(!map[k])map[k]={name:k,email:'',phone:o.phone||'',type:'guest',orders:[],total:0};
+    map[k].orders.push(o);map[k].total+=o.total||0;
+    if(o.phone&&!map[k].phone)map[k].phone=o.phone;
+  });
+  return Object.values(map);
+}
+function viewCustDetail(name){viewCust=name;R()}
+function backCustList(){viewCust=null;R()}
+function saveCustNote(name){const v=document.getElementById('cn-ta')?.value?.trim()||'';custNotes[name]=v;SS('custNotes',custNotes);alert(t('updated'));R()}
+function tgCustBlock(name){const i=custBlocks.indexOf(name);if(i>=0)custBlocks.splice(i,1);else custBlocks.push(name);SS('custBlocks',custBlocks);R()}
+function setCustFilter(f){custFilter=f;R()}
+function setCustQ(){custQ=document.getElementById('cust-q')?.value?.trim()?.toLowerCase()||'';R()}
+
 // ═══════════════════════════════
 // RENDER FUNCTIONS
 // ═══════════════════════════════
@@ -455,7 +481,7 @@ function rAL(){if(!showAL)return'';return`<div class="aov" onclick="closeAL()"><
 // ADMIN PAGES
 // ════════════════════════════
 function rANav(){
-  const tabs=[{k:'dash',ic:'📊',l:t('dash')},{k:'prods',ic:'📦',l:t('prodsT')},{k:'cats',ic:'🏷️',l:t('catsT')},{k:'stk',ic:'📋',l:t('stk')},{k:'coup',ic:'🎟️',l:t('coupT')},{k:'dlvr',ic:'🚚',l:t('dlvrT')},{k:'pay',ic:'⚙️',l:t('payS')},{k:'ig',ic:'📷',l:t('igS')}];
+  const tabs=[{k:'dash',ic:'📊',l:t('dash')},{k:'prods',ic:'📦',l:t('prodsT')},{k:'custs',ic:'👥',l:t('custDB')},{k:'cats',ic:'🏷️',l:t('catsT')},{k:'stk',ic:'📋',l:t('stk')},{k:'coup',ic:'🎟️',l:t('coupT')},{k:'dlvr',ic:'🚚',l:t('dlvrT')},{k:'pay',ic:'⚙️',l:t('payS')},{k:'ig',ic:'📷',l:t('igS')}];
   return`<div class="atab">${tabs.map(x=>`<button class="at ${ap===x.k?'on':''}" onclick="goA('${x.k}')">${x.ic} ${x.l}</button>`).join('')}</div>`}
 
 function rADash(){
@@ -512,9 +538,80 @@ function rAPayS(){
 function rAIG(){
   return`${rANav()}<div style="padding:0 12px"><div style="font-size:14px;font-weight:700;margin-bottom:12px">📷 Instagram</div><div style="display:flex;flex-direction:column;gap:10px"><input class="i" id="ig-a" placeholder="@inspired.by.eisha" dir="ltr" value="${stg.igAcc||'@inspired.by.eisha'}"/><input class="i" id="ig-l" placeholder="https://instagram.com/..." dir="ltr" value="${stg.igLink||'https://www.instagram.com/inspired.by.eisha'}"/><button class="bp" onclick="svIG()">${t('save')}</button></div></div>`}
 
-function rACoup(){
+function rACusts(){
+  const all=getAllCusts();
+  // Detail view
+  if(viewCust){
+    const c=all.find(x=>x.name===viewCust);
+    if(!c)return`${rANav()}<div style="padding:20px;text-align:center;color:#8A8580">Not found</div>`;
+    const isBlk=custBlocks.includes(c.name);
+    const note=custNotes[c.name]||'';
+    const avgOrd=c.orders.length?Math.round(c.total/c.orders.length):0;
+    return`${rANav()}<div style="padding:0 12px">
+    <button onclick="backCustList()" style="background:none;border:none;font-size:13px;color:#C8956C;cursor:pointer;font-weight:600;margin-bottom:12px">${L==='ar'?'→':'←'} ${t('custBack')}</button>
+    <div class="c" style="padding:18px;margin-bottom:10px;text-align:center;position:relative">
+      ${isBlk?`<div style="position:absolute;top:10px;${L==='ar'?'left':'right'}:10px;padding:3px 8px;border-radius:6px;background:#EF444415;color:#EF4444;font-size:9px;font-weight:700">🚫 ${t('custBlocked')}</div>`:''}
+      <div style="width:56px;height:56px;border-radius:28px;background:${c.type==='reg'?'#C8956C20':'#4A90D920'};display:flex;align-items:center;justify-content:center;font-size:24px;margin:0 auto 8px">${c.type==='reg'?'👤':'👻'}</div>
+      <div style="font-size:16px;font-weight:700">${c.name}</div>
+      <div style="font-size:11px;color:#8A8580;margin-top:2px">${c.type==='reg'?t('custReg'):t('custGuest')}</div>
+      ${c.email?`<div style="font-size:11px;color:#8A8580;margin-top:4px">📧 ${c.email}</div>`:''}
+      ${c.phone?`<div style="font-size:11px;color:#8A8580;margin-top:2px">📱 ${c.phone}</div>`:''}
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:10px">
+      <div class="sc" style="text-align:center"><div style="font-size:9px;color:#8A8580">${t('custOrders')}</div><div style="font-size:18px;font-weight:800;color:#4A90D9;margin-top:2px">${c.orders.length}</div></div>
+      <div class="sc" style="text-align:center"><div style="font-size:9px;color:#8A8580">${t('custTotal')}</div><div style="font-size:18px;font-weight:800;color:#5B9A6F;margin-top:2px">${c.total}</div></div>
+      <div class="sc" style="text-align:center"><div style="font-size:9px;color:#8A8580">${L==='ar'?'المتوسط':'Average'}</div><div style="font-size:18px;font-weight:800;color:#C8956C;margin-top:2px">${avgOrd}</div></div>
+    </div>
+    <div class="c" style="padding:14px;margin-bottom:10px">
+      <div style="font-size:12px;font-weight:700;margin-bottom:8px">📝 ${t('custNote')}</div>
+      <textarea class="ta" id="cn-ta" placeholder="${t('custNoteH')}" style="margin-bottom:8px">${note}</textarea>
+      <button class="bp" onclick="saveCustNote('${c.name.replace(/'/g,"\\'")}')" style="font-size:12px;padding:10px 0">${t('custSaveNote')}</button>
+    </div>
+    <button onclick="tgCustBlock('${c.name.replace(/'/g,"\\'")}')" style="width:100%;padding:10px 0;border-radius:14px;background:${isBlk?'#5B9A6F15':'#FEF2F2'};color:${isBlk?'#5B9A6F':'#EF4444'};border:1px solid ${isBlk?'#5B9A6F30':'#FECACA'};font-size:12px;font-weight:600;cursor:pointer;margin-bottom:14px">${isBlk?'✅ '+t('custUnblock'):'🚫 '+t('custBlock')}</button>
+    <div style="font-size:13px;font-weight:700;margin-bottom:8px">📦 ${t('custOrdHist')}</div>
+    ${c.orders.length?c.orders.slice().reverse().map(o=>`<div class="c" style="padding:10px 12px;margin-bottom:4px">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <span style="font-size:12px;font-weight:700">#${o.id}</span>
+        <span style="padding:2px 8px;border-radius:8px;font-size:9px;font-weight:600;background:#C8956C15;color:#C8956C">${o.status}</span>
+      </div>
+      <div style="font-size:10px;color:#8A8580;margin-top:4px">${o.date} • 📍${o.zone||''} • ${o.items.length} ${t('items')}</div>
+      <div style="display:flex;justify-content:space-between;margin-top:4px;font-size:11px">
+        <span style="color:#8A8580">${o.items.map(x=>x.nm).join(', ')}</span>
+        <span style="font-weight:700;color:#2D2A26">${o.total} ${t('qar')}</span>
+      </div>
+      ${o.coupon?`<div style="font-size:9px;color:#5B9A6F;margin-top:2px">🎟️ ${o.coupon} (-${o.disc} ${t('qar')})</div>`:''}
+      ${o.notes?`<div style="font-size:9px;color:#C8956C;margin-top:2px">📝 ${o.notes}</div>`:''}
+    </div>`).join(''):`<div style="text-align:center;padding:20px;color:#8A8580;font-size:12px">${t('custNoOrd')}</div>`}
+    </div>`}
+  // List view
+  let custs=all;
+  if(custFilter==='reg')custs=custs.filter(c=>c.type==='reg');
+  if(custFilter==='guest')custs=custs.filter(c=>c.type==='guest');
+  if(custFilter==='blocked')custs=custs.filter(c=>custBlocks.includes(c.name));
+  if(custQ)custs=custs.filter(c=>c.name.toLowerCase().includes(custQ)||c.email.toLowerCase().includes(custQ)||c.phone.includes(custQ));
+  custs.sort((a,b)=>b.total-a.total);
   return`${rANav()}<div style="padding:0 12px">
-  <div style="font-size:14px;font-weight:700;margin-bottom:12px">🎟️ ${t('coupT')}</div>
+  <div style="margin-bottom:10px"><input class="i" id="cust-q" placeholder="🔍 ${t('custSearch')}" oninput="setCustQ()" value="${custQ}"/></div>
+  <div style="display:flex;gap:6px;margin-bottom:12px;overflow-x:auto">${[{k:'all',l:t('custAll'),ct:all.length},{k:'reg',l:t('custReg'),ct:all.filter(c=>c.type==='reg').length},{k:'guest',l:t('custGuest'),ct:all.filter(c=>c.type==='guest').length},{k:'blocked',l:'🚫',ct:custBlocks.length}].map(f=>`<button onclick="setCustFilter('${f.k}')" style="padding:6px 12px;border-radius:12px;border:none;cursor:pointer;font-size:11px;font-weight:600;white-space:nowrap;background:${custFilter===f.k?'#22201D':'#F5F0EA'};color:${custFilter===f.k?'#fff':'#8A8580'}">${f.l} (${f.ct})</button>`).join('')}</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:12px">
+    <div class="sc"><div style="font-size:9px;color:#8A8580">${L==='ar'?'إجمالي العملاء':'Total Customers'}</div><div style="font-size:18px;font-weight:800;color:#C8956C">${all.length}</div></div>
+    <div class="sc"><div style="font-size:9px;color:#8A8580">${L==='ar'?'إجمالي الإيرادات':'Total Revenue'}</div><div style="font-size:18px;font-weight:800;color:#5B9A6F">${all.reduce((a,c)=>a+c.total,0)} <span style="font-size:10px;font-weight:500">${t('qar')}</span></div></div>
+  </div>
+  ${custs.length?custs.map((c,i)=>{const isBlk=custBlocks.includes(c.name);return`<div class="c fu" style="margin-bottom:6px;padding:12px;display:flex;align-items:center;gap:10px;cursor:pointer;animation-delay:${i*30}ms;${isBlk?'opacity:.5':''}" onclick="viewCustDetail('${c.name.replace(/'/g,"\\'")}')">
+    <div style="width:40px;height:40px;border-radius:20px;background:${c.type==='reg'?'#C8956C20':'#4A90D920'};display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">${c.type==='reg'?'👤':'👻'}</div>
+    <div style="flex:1;min-width:0">
+      <div style="font-size:12px;font-weight:600;display:flex;align-items:center;gap:4px">${c.name} ${isBlk?'<span style="font-size:8px;padding:1px 5px;border-radius:4px;background:#EF444415;color:#EF4444">🚫</span>':''}</div>
+      <div style="font-size:10px;color:#8A8580">${c.phone||c.email||t('custGuest')} • ${c.orders.length} ${t('custOrders')}</div>
+    </div>
+    <div style="text-align:${L==='ar'?'left':'right'};flex-shrink:0">
+      <div style="font-size:13px;font-weight:700;color:#5B9A6F">${c.total}</div>
+      <div style="font-size:9px;color:#8A8580">${t('qar')}</div>
+    </div>
+  </div>`}).join(''):`<div style="text-align:center;padding:30px;color:#8A8580;font-size:13px">${t('custNoCust')}</div>`}
+  </div>`}
+
+function rACoup(){
+  return`${rANav()}<div style="padding:0 12px">  <div style="font-size:14px;font-weight:700;margin-bottom:12px">🎟️ ${t('coupT')}</div>
   ${coupons.length?coupons.map((c,i)=>`<div class="c" style="margin-bottom:6px;padding:12px;display:flex;align-items:center;gap:8px">
     <div style="flex:1">
       <div style="font-size:13px;font-weight:700;font-family:monospace;letter-spacing:1px;color:#2D2A26">${c.code}</div>
@@ -537,7 +634,7 @@ function rACoup(){
   </div></div>`}
 
 function rAdmin(){
-  const sub={dash:rADash,prods:rAProds,addp:rAAddP,stk:rAStk,cats:rACats,pays:rAPays,dlvr:rADlvr,pay:rAPayS,ig:rAIG,coup:rACoup};
+  const sub={dash:rADash,prods:rAProds,addp:rAAddP,stk:rAStk,cats:rACats,pays:rAPays,dlvr:rADlvr,pay:rAPayS,ig:rAIG,coup:rACoup,custs:rACusts};
   return`<div style="padding-bottom:16px"><div class="hd"><div><div class="tt">🔐 ${t('adm')}</div><div style="font-size:10px;color:#8A8580">👤 ${ADM_U}</div></div><div style="display:flex;gap:6px;align-items:center">${rLT()}<button onclick="admOut()" style="padding:4px 10px;border-radius:12px;border:1px solid #EF444430;background:#FEF2F2;font-size:10px;font-weight:600;cursor:pointer;color:#EF4444">${t('admO')}</button></div></div>${(sub[ap]||rADash)()}</div>`}
 
 // ═══ MAIN RENDER ═══
